@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskRelay Partner Portal - Maximieren Sie Ihren Fuhrparkwert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Einheitliche Farbgebung und Effekte */
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Fixed CTA */
+        .fixed-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.06);
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        /* Partner-Vorteile Styling */
+        .benefit-card {
+            border-left: 4px solid #4f46e5;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Styling für den simulierten Rechner */
+        .calculator-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Abrechnungs-Timeline Styling */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4f46e5;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #4f46e5;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 1.5rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background-color: #c7d2fe;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // FAQ-Toggle Logik
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const header = item.querySelector('.faq-header');
+                const content = item.querySelector('.faq-content');
+
+                header.addEventListener('click', () => {
+                    document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            activeItem.classList.remove('active');
+                            activeItem.querySelector('.faq-content').style.maxHeight = 0;
+                            activeItem.querySelector('.faq-icon').textContent = '➕';
+                        }
+                    });
+
+                    const isActive = item.classList.toggle('active');
+                    const icon = item.querySelector('.faq-icon');
+                    if (isActive) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.textContent = '➖';
+                    } else {
+                        content.style.maxHeight = 0;
+                        icon.textContent = '➕';
+                    }
+                });
+            });
+
+            // Simulierter Rentabilitäts-Rechner Logik
+            const fleetSizeInput = document.getElementById('fleetSize');
+            const avgTripsInput = document.getElementById('avgTrips');
+            const estimatedRevenueOutput = document.getElementById('estimatedRevenue');
+
+            function calculateRevenue() {
+                const size = parseInt(fleetSizeInput.value) || 0;
+                const trips = parseInt(avgTripsInput.value) || 0;
+                
+                // Formel: Fuhrparkgröße * 2000 € (Grundfüllung pro Fahrzeug) + variable Komponente
+                const estimatedMonthlyRevenue = size * 2000 + (size * trips * 5); 
+                
+                estimatedRevenueOutput.textContent = new Intl.NumberFormat('de-DE', {
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0
+                }).format(estimatedMonthlyRevenue);
+            }
+
+            fleetSizeInput.addEventListener('input', calculateRevenue);
+            avgTripsInput.addEventListener('input', calculateRevenue);
+
+            // Initialberechnung
+            calculateRevenue();
+        });
+    </script>
+</head>
+
+<body class="bg-white antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600">TaskRelay</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#roi-calc" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Rentabilität</a>
+                    <a href="#payment-section" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Abrechnung</a>
+                    <a href="#integration-section" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Integration</a>
+                    <a href="#esg-section" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Nachhaltigkeit</a>
+                </div>
+                <a href="#contact-section"
+                    class="font-bold py-2 px-6 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md">Jetzt Partner werden</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero-section" class="pt-24 pb-20 md:pt-36 md:pb-28 text-center bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-4">WERDEN SIE TEIL DER LOGISTIK-INTELLIGENZ</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                Maximieren Sie die Auslastung und <span class="text-indigo-600">Planbarkeit</span> Ihres Fuhrparks.
+            </h1>
+            <p class="mt-8 text-xl text-gray-600 max-w-4xl mx-auto">
+                TaskRelay verbindet Ihren Fuhrpark nahtlos mit einem stetigen Fluss an B2B-Lieferaufträgen. Reduzieren Sie Leerfahrten, erhöhen Sie die Profitabilität und sichern Sie sich planbare Einnahmen.
+            </p>
+            <div class="mt-12 flex justify-center space-x-4">
+                <a href="#roi-calc"
+                    class="font-bold py-4 px-10 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl hover:shadow-2xl">
+                    Rentabilität berechnen
+                </a>
+                <a href="#contact-section"
+                    class="font-bold py-4 px-10 rounded-none transition-all text-gray-800 hover:text-indigo-600 border border-gray-300 hover:border-indigo-600 bg-white shadow-md">
+                    Kontakt aufnehmen
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="roi-calc" class="py-24 bg-white border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Ihr Zusätzliches Monatliches Potential</h2>
+                <p class="text-xl text-gray-600">Finden Sie heraus, wie TaskRelay Ihre Marge füllt.</p>
+            </div>
+
+            <div class="bg-indigo-50 p-10 rounded-none shadow-2xl border-t-4 border-indigo-600">
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <div>
+                        <label for="fleetSize" class="block text-lg font-medium text-gray-700 mb-2">Anzahl Ihrer aktiven Fahrzeuge:</label>
+                        <input type="number" id="fleetSize" value="5" min="1" max="100" class="calculator-input">
+                        <p class="text-sm text-gray-500 mt-2">Die Größe Ihres Fuhrparks.</p>
+                    </div>
+                    <div>
+                        <label for="avgTrips" class="block text-lg font-medium text-gray-700 mb-2">Durchschn. Leerfahrten pro Fahrzeug/Woche (simuliert):</label>
+                        <input type="number" id="avgTrips" value="3" min="0" max="20" class="calculator-input">
+                        <p class="text-sm text-gray-500 mt-2">TaskRelay optimiert diese Leerlaufzeiten.</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 pt-6 border-t border-indigo-300 text-center">
+                    <p class="text-lg font-medium text-gray-700 mb-2">Geschätzter zusätzlicher monatlicher Umsatz:</p>
+                    <div class="text-6xl font-extrabold text-indigo-700">
+                        <span id="estimatedRevenue">10.000 €</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mt-4 italic">Diese Schätzung basiert auf dem Füllen der Kapazitätslücken mit TaskRelay-Aufträgen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="payment-section" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Finanzielle Planbarkeit: So funktioniert die Abrechnung</h2>
+                <p class="text-xl text-gray-600">Keine Zahlungsverzögerungen. Keine komplizierte Rechnungsstellung.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Der einfache Zahlungszyklus</h3>
+                    <div class="timeline-item">
+                        <p class="text-sm text-indigo-600 font-bold uppercase mb-1">Schritt 1: Leistungserfassung</p>
+                        <p class="text-gray-700">Alle Aufträge und Zustellnachweise (POD) werden digital über die TaskRelay App erfasst.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="text-sm text-indigo-600 font-bold uppercase mb-1">Schritt 2: Automatisches Self-Billing</p>
+                        <p class="text-gray-700">Am Monatsende erhalten Sie eine automatische Gutschrift (Self-Billing) über die exakt erbrachte Leistung.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="text-sm text-indigo-600 font-bold uppercase mb-1">Schritt 3: Garantie der Auszahlung</p>
+                        <p class="text-gray-700">**Netto 14 Tage:** TaskRelay garantiert die Auszahlung des Gutschriftsbetrags innerhalb von 14 Tagen nach Monatsende.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-none shadow-xl border-l-4 border-indigo-600">
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                        <span class="text-3xl mr-3">🔒</span> Ihre finanzielle Sicherheit
+                    </h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**Kein Factoring nötig:** Wir tragen das Zahlungsrisiko der Versender.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**100% digitale Prozesse:** Minimale Verwaltung für Sie.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**Festpreise pro Auftrag:** Keine nachträglichen Verhandlungen oder Gebühren.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="value-section" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Ihr Wachstum durch TaskRelay</h2>
+                <p class="text-xl text-gray-600">Wir bieten mehr als Aufträge – wir bieten Logistik-Stabilität.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="p-6 bg-gray-50 shadow-xl benefit-card">
+                    <span class="text-3xl text-indigo-600 block mb-3">📈</span>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Volle Auslastung garantiert</h3>
+                    <p class="text-gray-700">Die KI von TaskRelay füllt Ihre Kapazitäten automatisch und reduziert
+                        Leerfahrten um bis zu 25%.</p>
+                </div>
+                <div class="p-6 bg-gray-50 shadow-xl benefit-card">
+                    <span class="text-3xl text-indigo-600 block mb-3">💰</span>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Planbare Einnahmen</h3>
+                    <p class="text-gray-700">Wettbewerbsfähige, transparente Vergütung und zuverlässige monatliche
+                        Auszahlung – ohne lange Wartezeiten.</p>
+                </div>
+                <div class="p-6 bg-gray-50 shadow-xl benefit-card">
+                    <span class="text-3xl text-indigo-600 block mb-3">✅</span>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Fokus auf den Betrieb</h3>
+                    <p class="text-gray-700">Keine Auftragsakquise, kein Dispositionsstress. Konzentrieren Sie sich
+                        vollständig auf die pünktliche Zustellung.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="integration-section" class="py-24 bg-indigo-700 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 gap-12 items-center">
+                <div class="order-1 lg:order-2">
+                    <div class="bg-gray-100 h-96 rounded-none shadow-xl flex items-center justify-center text-indigo-600 font-medium border-2 border-white">
+                        [Mockup: App-Screenshots der einfachen Integrationsschritte]
+                    </div>
+                </div>
+                <div class="order-2 lg:order-1 mt-10 lg:mt-0">
+                    <h2 class="text-4xl font-extrabold mb-4">Minimale Integration, Maximale Wirkung</h2>
+                    <p class="text-xl text-indigo-200 mb-8">
+                        Wir haben den Onboarding-Prozess für die IT Ihres Unternehmens so schlank wie möglich gehalten.
+                    </p>
+                    <ul class="space-y-4 text-indigo-100">
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl font-bold">⏱️</span>
+                            <span>**5-Minuten-Setup:** Das Einrichten der Fahrer-App dauert nur wenige Minuten pro Gerät.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl font-bold">💻</span>
+                            <span>**Keine Zusatz-Hardware:** Wir nutzen die Smartphones Ihrer Fahrer (iOS/Android).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl font-bold">⚙️</span>
+                            <span>**Optional: TMS/ERP-Konnektivität:** Für Großpartner bieten wir eine simple API zur direkten Auftragsübernahme.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="esg-section" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 gap-12 items-center">
+                <div class="mt-10 lg:mt-0">
+                    <span class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-4 block">UMWELT & EFFIZIENZ</span>
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Werden Sie zum nachhaltigen Logistiker</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Unsere Technologie macht nicht nur Sie profitabler, sondern reduziert auch den CO₂-Fußabdruck Ihrer Flotte – ein entscheidender Wettbewerbsvorteil.
+                    </p>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 text-xl">🌱</span>
+                            <span>**CO₂-Senkung:** Optimale Routenplanung minimiert unnötige Kilometer.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 text-xl">🌱</span>
+                            <span>**ESG-Reporting:** Sie erhalten automatische Daten zur Reduktion von Leerfahrten für Ihre Nachhaltigkeitsberichte.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 text-xl">🌱</span>
+                            <span>**Bevorzugte Zuweisung:** Flotten mit Euro-6-Standard oder E-Fahrzeugen erhalten bei uns Priorität.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-8 bg-gray-50 rounded-none shadow-lg flex items-center justify-center h-80">
+                    [Visualisierung: Grafische Darstellung der CO₂-Reduktion]
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact-section" class="py-24 bg-gray-900 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-4xl font-extrabold text-white mb-6">Sichern Sie sich planbare Mehreinnahmen.</h3>
+            <p class="text-xl text-gray-400 mb-10">Starten Sie den unverbindlichen Dialog mit unserem Partner-Management
+                und entdecken Sie, wie TaskRelay Ihren monatlichen Fuhrparkumsatz stabilisieren kann.</p>
+            <a href="#"
+                class="font-bold py-4 px-10 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-2xl hover:shadow-3xl">
+                Ihre Partnerschaft jetzt starten
+            </a>
+        </div>
+
+        <div class="mt-20 border-t border-gray-700 pt-10 px-4">
+            <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-left text-sm">
+                <div>
+                    <h4 class="font-bold text-white mb-4">TaskRelay</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="landingpage.html" class="hover:text-indigo-400">Zur Versender-Lösung</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">Über uns</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">Karriere</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Partnerschaft</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#roi-calc" class="hover:text-indigo-400">Rentabilitätsrechner</a></li>
+                        <li><a href="#payment-section" class="hover:text-indigo-400">Abrechnung & Zahlung</a></li>
+                        <li><a href="#esg-section" class="hover:text-indigo-400">Nachhaltigkeit</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Technologie</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#integration-section" class="hover:text-indigo-400">Integration</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">Fahrer-App</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">TMS/API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Rechtliches</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-indigo-400">Impressum</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">Datenschutz</a></li>
+                        <li><a href="#" class="hover:text-indigo-400">Partner-AGB</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16 text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> TaskRelay. Partner-Portal.
+        </div>
+    </footer>
+
+    <div class="fixed-cta hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <p class="text-lg font-bold text-gray-800">
+                Interesse an stabiler Auslastung? <span class="text-indigo-600">Berechnen Sie jetzt Ihren ROI.</span>
+            </p>
+            <a href="#roi-calc"
+                class="font-bold py-3 px-8 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                ROI berechnen →
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

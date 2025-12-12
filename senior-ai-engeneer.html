@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar { position: sticky; top: 7rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); border-radius: 0.5rem; }
+        .job-hero { background-color: #f3f4f6; }
+        .highlight-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; background-color: #e0f2f1; color: #0d9488; font-weight: 600; font-size: 0.875rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    </style>
+</head>
+
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600">TaskRelay</span>
+                </div>
+                <a href="karriere.html#jobs" class="text-sm font-medium text-gray-500 hover:text-indigo-600">← Zurück zur Job-Liste</a>
+                <a href="#apply" id="nav-apply-btn"
+                    class="font-bold py-2 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md">Jetzt bewerben</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="job-hero pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-2" id="job-category">Laden...</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3 leading-tight" id="job-title">Laden...</h1>
+            <p class="text-xl text-indigo-600 font-semibold mb-6" id="job-slogan">Laden...</p>
+            <div class="flex flex-wrap items-center text-md text-gray-700 space-x-4" id="job-facts">
+                </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid lg:grid-cols-3 gap-12">
+
+            <div class="lg:col-span-2">
+                
+                <section class="mb-12 p-8 bg-white rounded-lg shadow-lg border-l-4 border-indigo-600">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4 flex items-center">
+                        <span class="text-indigo-600 mr-3">💡</span> Die Herausforderung
+                    </h2>
+                    <p class="text-lg text-gray-700" id="job-summary">Laden...</p>
+                </section>
+
+                <section class="mb-12">
+                    <h2 class="text-3xl font-bold text-indigo-700 mb-6 flex items-center">
+                        <span class="text-4xl mr-3">⚙️</span> Ihre Kernaufgaben
+                    </h2>
+                    <ul class="space-y-4 text-gray-700" id="job-tasks">
+                        </ul>
+                </section>
+
+                <section class="mb-12 pt-6 border-t border-gray-200">
+                    <h2 class="text-3xl font-bold text-indigo-700 mb-6 flex items-center">
+                        <span class="text-4xl mr-3">🛠️</span> Was Sie mitbringen
+                    </h2>
+                    <div class="text-gray-700 space-y-4">
+                        <p class="font-bold text-lg">Hard Skills (Must-Haves):</p>
+                        <div class="flex flex-wrap" id="job-profile-skills">
+                            </div>
+
+                        <p class="font-bold text-lg pt-4">Persönliche Qualifikationen:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-4" id="job-profile-qualities">
+                            </ul>
+                    </div>
+                </section>
+                
+                <div class="mt-12 text-center p-8 bg-indigo-100 rounded-lg">
+                    <h3 class="text-2xl font-bold text-indigo-800 mb-4">Klingt das nach Ihrer nächsten Herausforderung?</h3>
+                    <a href="#apply" class="inline-block font-bold py-3 px-8 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                        Jetzt direkt bewerben
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-1">
+                <div id="apply" class="sidebar p-8 bg-white border-t-4 border-indigo-600">
+                    
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Key Facts</h3>
+                    
+                    <dl class="space-y-3 text-gray-700 mb-6" id="sidebar-keyfacts">
+                        </dl>
+                    
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 mt-8">Bewerbung</h3>
+                    <p class="text-sm text-gray-600 mb-4">Bitte reichen Sie Ihren CV und ein kurzes Anschreiben ein. Wir melden uns innerhalb von 7 Werktagen.</p>
+                    
+                    <a id="sidebar-email-link" href="#" class="w-full block text-center font-bold py-4 px-4 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl text-lg">
+                        Bewerbung senden via E-Mail
+                    </a>
+                    
+                    <button class="w-full mt-3 block text-center font-bold py-3 px-4 rounded-lg transition-all bg-white border border-indigo-600 text-indigo-600 hover:bg-indigo-50">
+                        Oder über LinkedIn bewerben
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-10 bg-gray-900 text-center">
+        <div class="text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> TaskRelay GmbH. Karriere. | <a href="impressum.html" class="hover:text-indigo-400">Impressum</a> | <a href="datenschutz.html" class="hover:text-indigo-400">Datenschutz</a>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Hier beginnt die dynamische JS-Logik ---
+
+        // Simuliertes JSON-Objekt (im echten Szenario per fetch() von einer Datei laden)
+        const jobData = {
+          "jobs": [
+            {
+              "id": "ai-engineer-routing",
+              "title": "Senior AI Engineer (Routing Algorithms)",
+              "category": "ENGINEERING & DATA SCIENCE",
+              "slogan": "Gestalten Sie die Zukunft der Logistik-Optimierung.",
+              "location": "München (Hybrid)",
+              "employment": "Vollzeit",
+              "level": "Senior Level",
+              "stack": "Go, Python, AWS",
+              "summary": "Als Senior AI Engineer sind Sie der Architekt unserer proprietären KI-Dispositions-Engine. Sie arbeiten an der Schnittstelle von Logistik und Deep Learning, um die effizientesten Routen und Auslastungen für unsere Partnerflotten zu berechnen. Ihr Code hat direkten Einfluss auf tausende tägliche Lieferungen in Europa und trägt massiv zur Reduzierung von CO₂ bei.",
+              "tasks": [
+                "Entwicklung, Training und Deployment von hochskalierbaren Optimierungs- und Routing-Algorithmen (Gurobi, OR-Tools).",
+                "Implementierung von Explainable AI (XAI) Features, um die Entscheidungen der KI transparent zu machen.",
+                "Enge Zusammenarbeit mit dem Cloud-Engineering-Team (AWS) zur Sicherstellung der 24/7-Verfügbarkeit der Dispositionsdienste.",
+                "Analyse großer, multimodaler Logistik-Datensätze, um Modell-Performance und Fairness zu verbessern.",
+                "Mentoring juniorer Data Scientists und Etablierung von Best Practices im ML-Engineering."
+              ],
+              "profile_skills": [
+                "Python (5+ Jahre Erfahrung)",
+                "VRP / TSP Algorithmen",
+                "MLOps & Deployment (AWS Sagemaker/Lambda)",
+                "Tiefes DL/Reinforcement Learning Know-how"
+              ],
+              "profile_qualities": [
+                "Nachgewiesene Fähigkeit, komplexe Systeme von der Konzeption bis zur Produktion zu führen.",
+                "Ausgeprägte analytische Fähigkeiten und Leidenschaft für datengetriebene Entscheidungen.",
+                "Fließende Englischkenntnisse (Unternehmenssprache)."
+              ],
+              "contact_email": "jobs@taskrelay.com",
+              "reporting_to": "CTO, Dr. Wagner",
+              "publication_date": "11. Dez. 2025"
+            },
+            // ... Weitere Job-Objekte hier einfügen
+          ]
+        };
+
+        function populateJobDetail() {
+            // Im echten Szenario: Job-ID aus der URL (z.B. ?job=ai-engineer-routing) auslesen
+            // Hier wählen wir die erste Job-ID fest aus dem JSON-Array
+            const jobId = "ai-engineer-routing"; 
+            const job = jobData.jobs.find(j => j.id === jobId);
+
+            if (!job) {
+                document.getElementById('job-title').textContent = "Job nicht gefunden.";
+                // Fehlerbehandlung...
+                return;
+            }
+
+            // 1. Header-Sektion befüllen
+            document.title = `Job: ${job.title} - TaskRelay`;
+            document.getElementById('job-category').textContent = job.category;
+            document.getElementById('job-title').textContent = job.title;
+            document.getElementById('job-slogan').textContent = job.slogan;
+
+            // Job Facts befüllen
+            document.getElementById('job-facts').innerHTML = `
+                <span class="flex items-center">📍 ${job.location}</span>
+                <span class="flex items-center">⏱️ ${job.employment}</span>
+                <span class="flex items-center">🛠️ ${job.stack}</span>
+                <span class="flex items-center">📈 ${job.level}</span>
+            `;
+
+            // 2. Job-Beschreibung (Linke Spalte) befüllen
+            document.getElementById('job-summary').textContent = job.summary;
+
+            // Aufgaben befüllen
+            const tasksList = document.getElementById('job-tasks');
+            tasksList.innerHTML = job.tasks.map(task => `
+                <li class="flex items-start">
+                    <span class="text-indigo-600 text-xl mr-3 flex-shrink-0">✓</span>
+                    <span>${task}</span>
+                </li>
+            `).join('');
+
+            // Hard Skills Badges befüllen
+            const skillsContainer = document.getElementById('job-profile-skills');
+            skillsContainer.innerHTML = job.profile_skills.map(skill => `
+                <span class="highlight-badge">${skill}</span>
+            `).join('');
+
+            // Qualitäten befüllen
+            const qualitiesList = document.getElementById('job-profile-qualities');
+            qualitiesList.innerHTML = job.profile_qualities.map(quality => `
+                <li>${quality}</li>
+            `).join('');
+            
+            // 3. Sidebar befüllen
+            document.getElementById('sidebar-email-link').href = `mailto:${job.contact_email}?subject=Bewerbung ${job.title.replace(/ /g, '%20')}`;
+            
+            document.getElementById('sidebar-keyfacts').innerHTML = `
+                <div class="flex justify-between items-center">
+                    <dt class="font-semibold text-gray-600">Team:</dt>
+                    <dd class="font-bold">${job.category.split(' & ')[0]}</dd>
+                </div>
+                <div class="flex justify-between items-center">
+                    <dt class="font-semibold text-gray-600">Berichtslinie:</dt>
+                    <dd class="font-bold">${job.reporting_to}</dd>
+                </div>
+                <div class="flex justify-between items-center">
+                    <dt class="font-semibold text-gray-600">Veröffentlichung:</dt>
+                    <dd>${job.publication_date || 'N/A'}</dd>
+                </div>
+                <div class="flex justify-between items-center">
+                    <dt class="font-semibold text-gray-600">Ansprechpartner:</dt>
+                    <dd>${job.contact_email}</dd>
+                </div>
+            `;
+        }
+
+        // Seite laden
+        document.addEventListener('DOMContentLoaded', populateJobDetail);
+
+    </script>
+</body>
+
+</html>

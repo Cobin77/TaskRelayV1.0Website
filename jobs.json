@@ -1,0 +1,38 @@
+{
+  "jobs": [
+    {
+      "id": "ai-engineer-routing",
+      "title": "Senior AI Engineer (Routing Algorithms)",
+      "category": "ENGINEERING & DATA SCIENCE",
+      "slogan": "Gestalten Sie die Zukunft der Logistik-Optimierung.",
+      "location": "München (Hybrid)",
+      "employment": "Vollzeit",
+      "level": "Senior Level",
+      "stack": "Go, Python, AWS",
+      "summary": "Als Senior AI Engineer sind Sie der Architekt unserer proprietären KI-Dispositions-Engine. Sie arbeiten an der Schnittstelle von Logistik und Deep Learning, um die effizientesten Routen und Auslastungen für unsere Partnerflotten zu berechnen. Ihr Code hat direkten Einfluss auf tausende tägliche Lieferungen in Europa und trägt massiv zur Reduzierung von CO₂ bei.",
+      "tasks": [
+        "Entwicklung, Training und Deployment von hochskalierbaren Optimierungs- und Routing-Algorithmen (Gurobi, OR-Tools).",
+        "Implementierung von Explainable AI (XAI) Features, um die Entscheidungen der KI transparent zu machen.",
+        "Enge Zusammenarbeit mit dem Cloud-Engineering-Team (AWS) zur Sicherstellung der 24/7-Verfügbarkeit der Dispositionsdienste.",
+        "Analyse großer, multimodaler Logistik-Datensätze, um Modell-Performance und Fairness zu verbessern.",
+        "Mentoring juniorer Data Scientists und Etablierung von Best Practices im ML-Engineering."
+      ],
+      "profile_skills": [
+        "Python (5+ Jahre Erfahrung)",
+        "VRP / TSP Algorithmen",
+        "MLOps & Deployment (AWS Sagemaker/Lambda)",
+        "Tiefes DL/Reinforcement Learning Know-how"
+      ],
+      "profile_qualities": [
+        "Nachgewiesene Fähigkeit, komplexe Systeme von der Konzeption bis zur Produktion zu führen.",
+        "Ausgeprägte analytische Fähigkeiten und Leidenschaft für datengetriebene Entscheidungen.",
+        "Fließende Englischkenntnisse (Unternehmenssprache)."
+      ],
+      "contact_email": "jobs@taskrelay.com",
+      "reporting_to": "CTO, Dr. Wagner"
+    }
+
+
+    
+  ]
+}

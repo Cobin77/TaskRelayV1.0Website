@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskRelay - Logistik einfach versenden</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hero Stil mit dezentem Muster für High-Tech-Look */
+        .versender-hero {
+            background-color: #f8fafc; /* Slate-50 */
+            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+            background-size: 10px 10px;
+            position: relative;
+        }
+
+        /* Pricing Card Styling */
+        .pricing-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .primary-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background-color: #f0fdf4; /* Green-50 */
+            color: #15803d; /* Green-700 */
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-white antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+            <div class="space-x-4">
+                <a href="partnerportal.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Für Logistikpartner</a>
+                <a href="#demo" class="font-bold py-2.5 px-6 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-md">Demo anfordern</a>
+            </div>
+        </div>
+    </nav>
+    <header class="versender-hero pt-24 pb-20 md:pt-36 md:pb-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center">
+            
+            <div>
+                <p class="text-lg font-semibold text-indigo-600 mb-2">INTELLIGENTE LOGISTIK-VERMITTLUNG</p>
+                <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter leading-none text-gray-900">
+                    Ihre KI für <span class="text-indigo-700">sichere Fracht</span> und maximale Marge.
+                </h1>
+                <p class="mt-6 text-xl text-gray-600 max-w-lg">
+                    TaskRelay automatisiert 80% Ihrer Dispositionsarbeit. Garantiert 98% Pünktlichkeit. Reduzieren Sie Ihre Frachtkosten signifikant durch unser optimiertes Netzwerk.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#demo" class="font-bold py-4 px-10 rounded-xl transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-2xl text-xl transform hover:scale-105">
+                        Kostenlose Demo buchen
+                    </a>
+                    <a href="#features" class="font-semibold py-4 px-10 rounded-xl transition-all bg-white text-gray-800 border border-gray-300 hover:border-indigo-600 hover:shadow-lg">
+                        Produkttour starten
+                    </a>
+                </div>
+            </div>
+
+            <div class="hidden md:block shadow-[0_20px_50px_rgba(82,69,190,0.7)] rounded-2xl">
+                <img src="assets/img/png.png" alt="TaskRelay Echtzeit-Dashboard Ansicht" class="rounded-2xl border border-indigo-200">
+            </div>
+
+        </div>
+    </header>
+
+    <section class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm font-semibold text-gray-500 uppercase mb-8">
+                Vertrauen Sie den Systemen, mit denen wir uns verbinden:
+            </p>
+            <div class="flex flex-wrap justify-center items-center space-x-8 md:space-x-12 opacity-80">
+                <img src="placeholder_sap_logo.svg" alt="SAP Integration" class="h-8 grayscale hover:grayscale-0 transition-all">
+                <img src="placeholder_aws_logo.svg" alt="AWS Cloud" class="h-8 grayscale hover:grayscale-0 transition-all">
+                <img src="placeholder_salesforce_logo.svg" alt="Salesforce" class="h-8 grayscale hover:grayscale-0 transition-all">
+                <img src="placeholder_microsoft_logo.svg" alt="Microsoft" class="h-8 grayscale hover:grayscale-0 transition-all">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-sm font-bold text-indigo-600 uppercase tracking-widest mb-2">WIE ES FUNKTIONIERT</p>
+                <h2 class="text-4xl font-extrabold text-gray-900">Kontrolle, Effizienz, Nachhaltigkeit</h2>
+            </div>
+
+            <div class="md:grid md:grid-cols-3 gap-12">
+                
+                <div class="p-8 bg-white rounded-xl shadow-lg border-t-4 border-indigo-600">
+                    <span class="text-5xl text-indigo-700 block mb-4">📈</span>
+                    <h3 class="text-2xl font-bold mb-3">Bis zu 30% Kostenreduktion</h3>
+                    <p class="text-gray-700">Unsere KI berücksichtigt zehntausende Variablen (Marktdaten, Kapazitäten, Wetter) und findet die kostengünstigste, aber pünktlichste Route. Keine manuellen Suchen mehr.</p>
+                </div>
+
+                <div class="p-8 bg-white rounded-xl shadow-lg border-t-4 border-green-600">
+                    <span class="text-5xl text-green-700 block mb-4">🛡️</span>
+                    <h3 class="text-2xl font-bold mb-3">Gesicherte Kapazitäten</h3>
+                    <p class="text-gray-700">Zugriff auf ein vorqualifiziertes Netz von über 250 Logistikpartnern. Dank Smart Contracts und Überwachung garantieren wir eine Verlässlichkeit von über 98%.</p>
+                </div>
+
+                <div class="p-8 bg-white rounded-xl shadow-lg border-t-4 border-yellow-600">
+                    <span class="text-5xl text-yellow-700 block mb-4">📊</span>
+                    <h3 class="text-2xl font-bold mb-3">Dynamisches Reporting</h3>
+                    <p class="text-gray-700">Verfolgen Sie jede Fracht in Echtzeit, sehen Sie Ihren CO₂-Fußabdruck pro Sendung und nutzen Sie unsere datengestützten Insights zur Verbesserung Ihrer Supply Chain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-16">Schnell integriert: Starten Sie in 48 Stunden</h2>
+            
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <div class="hidden md:block absolute top-10 left-1/4 transform -translate-x-1/2 w-1/4 h-1 bg-gray-200"></div>
+                <div class="hidden md:block absolute top-10 left-1/2 transform -translate-x-1/2 w-1/4 h-1 bg-gray-200"></div>
+                <div class="hidden md:block absolute top-10 right-1/4 transform translate-x-1/2 w-1/4 h-1 bg-gray-200"></div>
+
+                <div class="relative pt-12">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg"><span class="text-2xl font-extrabold text-white">1</span></div>
+                    <h3 class="text-lg font-bold text-gray-900 mt-4 mb-2">Anfrage & Setup</h3>
+                    <p class="text-gray-600 text-sm">Kurze Bedarfsanalyse und initiales System-Setup.</p>
+                </div>
+
+                <div class="relative pt-12">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg"><span class="text-2xl font-extrabold text-white">2</span></div>
+                    <h3 class="text-lg font-bold text-gray-900 mt-4 mb-2">System-Integration</h3>
+                    <p class="text-gray-600 text-sm">Nahtlose API-Anbindung an Ihr ERP/TMS-System.</p>
+                </div>
+
+                <div class="relative pt-12">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg"><span class="text-2xl font-extrabold text-white">3</span></div>
+                    <h3 class="text-lg font-bold text-gray-900 mt-4 mb-2">Daten-Lernphase</h3>
+                    <p class="text-gray-600 text-sm">KI optimiert Routen basierend auf Ihren historischen Daten.</p>
+                </div>
+                
+                <div class="relative pt-12">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg"><span class="text-2xl font-extrabold text-white">4</span></div>
+                    <h3 class="text-lg font-bold text-gray-900 mt-4 mb-2">Go-Live & Support</h3>
+                    <p class="text-gray-600 text-sm">Starten Sie die ersten optimierten Sendungen. 24/7 Support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-sm font-bold text-indigo-600 uppercase tracking-widest mb-2">KOSTENTRANSPARENZ</p>
+                <h2 class="text-4xl font-extrabold text-gray-900">Faire Preise, die mit Ihnen wachsen.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <div class="pricing-card p-8 bg-white rounded-xl shadow-lg border-t-4 border-gray-300">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900">Starter (SME)</h3>
+                    <p class="text-gray-600 mb-6">Perfekt für KMUs mit saisonalen oder ersten optimierten Ladungen.</p>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-4">
+                        € 0<span class="text-xl font-medium text-gray-500"> / Monat</span>
+                    </p>
+                    <a href="#demo" class="w-full block text-center font-bold py-3 rounded-lg transition-all bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-200">
+                        Jetzt Kosten senken
+                    </a>
+                    <ul class="mt-6 space-y-3 text-gray-700">
+                        <li>✅ Zugang zum Partner-Netzwerk</li>
+                        <li>✅ Einfaches Web-Dashboard</li>
+                        <li>✅ KI-Optimierung (Basis)</li>
+                        <li class="text-gray-400">❌ Dedizierte API-Schnittstelle</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card p-8 bg-white rounded-xl shadow-2xl border-t-4 border-indigo-600 transform scale-[1.05]">
+                    <span class="primary-badge">Am beliebtesten</span>
+                    <h3 class="text-3xl font-bold mb-2 text-indigo-700">Professional</h3>
+                    <p class="text-gray-600 mb-6">Für wachsende Unternehmen mit festen Volumen und TMS-Integration.</p>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-4">
+                        € 499<span class="text-xl font-medium text-gray-500"> / Monat</span>
+                    </p>
+                    <a href="#demo" class="w-full block text-center font-bold py-3 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md">
+                        Demo anfordern
+                    </a>
+                    <ul class="mt-6 space-y-3 text-gray-700">
+                        <li>✅ Alles aus Starter</li>
+                        <li>✅ **Dedizierte API-Schnittstelle**</li>
+                        <li>✅ **Echtzeit-Tracking und ETA**</li>
+                        <li>✅ Priorisierter Support (24/7)</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card p-8 bg-white rounded-xl shadow-lg border-t-4 border-gray-300">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900">Enterprise</h3>
+                    <p class="text-gray-600 mb-6">Für Großkonzerne mit komplexen, multimodalen Anforderungen.</p>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-4">
+                        Kontakt<span class="text-xl font-medium text-gray-500"> / Volumina</span>
+                    </p>
+                    <a href="#demo" class="w-full block text-center font-bold py-3 rounded-lg transition-all bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-200">
+                        Individuelles Angebot
+                    </a>
+                    <ul class="mt-6 space-y-3 text-gray-700">
+                        <li>✅ Alle Professional Features</li>
+                        <li>✅ **Dedicated Deployment (Cloud)**</li>
+                        <li>✅ **Advanced Forecasting Engine**</li>
+                        <li>✅ Persönlicher Account Manager</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="py-24 bg-indigo-700 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-5xl font-extrabold mb-4">Ihre Logistik, neu definiert.</h2>
+            <p class="text-xl opacity-90 mb-8">
+                Sehen Sie in 30 Minuten, wie TaskRelay Ihnen Millionen Euro sparen kann.
+            </p>
+            
+            <a href="kontakt.html#sales" class="inline-block font-bold py-4 px-12 rounded-lg transition-all bg-white text-indigo-700 hover:bg-gray-100 shadow-2xl text-xl transform hover:scale-105">
+                Kostenlose Demo anfordern
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-10 text-center">
+        <p class="text-gray-500 text-sm">
+            &copy; <span id="current-year">2025</span> TaskRelay GmbH. | <a href="impressum.html" class="hover:text-indigo-400">Impressum</a> | <a href="datenschutz.html" class="hover:text-indigo-400">Datenschutz</a>
+        </p>
+    </footer>
+    </body>
+
+</html>

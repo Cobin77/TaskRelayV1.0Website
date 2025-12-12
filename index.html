@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskRelay - Die Logistik-Intelligenz für skalierbare Lieferketten</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Import der professionellen Schriftart Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+        }
+
+        /* --- STYLES FÜR PROFESSIONELLE NAVIGATION --- */
+        .dropdown-hover:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
+        .dropdown-menu { display: none; opacity: 0; transform: translateY(-5px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .transition-all { transition: all 0.3s ease-in-out; }
+
+        /* Stil für den FAQ-Toggle */
+        .faq-item { border-bottom: 1px solid #e5e7eb; }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+        .faq-item.active .faq-content { max-height: 500px; }
+
+        /* Fixed CTA am unteren Rand */
+        .fixed-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.06);
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        /* Zeitstrahl für die Roadmap (Beibehalten) */
+        .roadmap-item { position: relative; padding-left: 3rem; }
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0.5rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4f46e5;
+        }
+        .roadmap-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: 0.8rem;
+            width: 2px;
+            height: calc(100% - 1rem);
+            background-color: #e0e7ff;
+        }
+    </style>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle Funktion wird benötigt, wenn das Icon im HTML eingebunden ist.
+            // Die bereits definierte Funktion `toggleMobileMenu` reicht aus.
+            
+            // Smooth Scrolling für interne Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // FAQ-Toggle Logik (Beibehalten)
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const header = item.querySelector('.faq-header');
+                const content = item.querySelector('.faq-content');
+
+                header.addEventListener('click', () => {
+                    document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            activeItem.classList.remove('active');
+                            activeItem.querySelector('.faq-content').style.maxHeight = 0;
+                            activeItem.querySelector('.faq-icon').textContent = '➕';
+                        }
+                    });
+
+                    const isActive = item.classList.toggle('active');
+                    if (isActive) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        item.querySelector('.faq-icon').textContent = '➖';
+                    } else {
+                        content.style.maxHeight = 0;
+                        item.querySelector('.faq-icon').textContent = '➕';
+                    }
+                });
+            });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</head>
+
+<body class="bg-white antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="loesung_temperature.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Temperaturgeführte Transporte</a>
+                                <a href="loesung_ki.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay & Trust</a>
+                                <a href="#news-section" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Presse & Newsroom</a>
+                                <a href="#contact-section" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="wissen/wissen_index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Wissensbasis & Blog</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#tco-section" class="text-sm font-bold text-gray-700 hover:text-indigo-600 transition-all">TCO-Vergleich</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="#contact-section"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                <a href="#challenge-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Problem</a>
+                <a href="#tco-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Kosten (TCO)</a>
+                <a href="#coverage-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Reichweite</a>
+                <a href="#sla-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">SLA</a>
+                <a href="#contact-section" class="block w-full text-center py-2 mt-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700">Demo anfragen</a>
+            </div>
+        </div>
+    </nav>
+    <header class="pt-24 pb-20 md:pt-36 md:pb-28 text-center bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-4">LOGISTIK-INFRASTRUKTUR ALS
+                SERVICE</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                Von Fixkosten zur <span class="text-indigo-600">skalierbaren Logistik-Intelligenz</span>.
+            </h1>
+            <p class="mt-8 text-xl text-gray-600 max-w-4xl mx-auto">
+                TaskRelay eliminiert starre Lager-, Flotten- und Personalstrukturen. Wir schaffen ein variables
+                Ökosystem, das Unternehmen und Subunternehmer zur Erreichung höchster Lieferquoten verbindet.
+            </p>
+            <div class="mt-12 flex justify-center space-x-4">
+                <a href="#contact-section"
+                    class="font-bold py-4 px-10 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl hover:shadow-2xl">
+                    Unverbindliche Beratung anfragen
+                </a>
+                <a href="#tco-section"
+                    class="font-bold py-4 px-10 rounded-none transition-all text-gray-800 hover:text-indigo-600 border border-gray-300 hover:border-indigo-600 bg-white">
+                    TCO-Vergleich
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-20">
+        <div
+            class="bg-gray-100 h-[400px] w-full rounded-none shadow-2xl ring-1 ring-black ring-opacity-10 flex items-center justify-center text-gray-500 font-medium border-2 border-white">
+            [Visualisierung: Übersichtliches, modernes Interface mit Routenoptimierung und Subunternehmer-Status]
+        </div>
+    </section>
+
+    <section class="py-12 bg-gray-50 border-t border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-8">
+                Vertraut von führenden Marken in Logistik und Handel
+            </p>
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5 items-center justify-center">
+                <div class="col-span-1 flex justify-center">
+                    <span class="text-xl font-bold text-gray-400">LogCo</span>
+                </div>
+                <div class="col-span-1 flex justify-center">
+                    <span class="text-xl font-bold text-gray-400">FreshMarts</span>
+                </div>
+                <div class="col-span-1 flex justify-center">
+                    <span class="text-xl font-bold text-gray-400">Industrio</span>
+                </div>
+                <div class="col-span-1 flex justify-center">
+                    <span class="text-xl font-bold text-gray-400">TechRelief</span>
+                </div>
+                <div class="col-span-1 flex justify-center">
+                    <span class="text-xl font-bold text-gray-400">Großhandel X</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="challenge-section" class="py-24 bg-white border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-16">Das Problem: Starre Logistikstrukturen
+            </h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="p-8 shadow-xl border-l-4 border-red-600 rounded-none bg-gray-50">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                        <span class="text-4xl mr-3 text-red-600">🚨</span> Die Fixkostenfalle
+                    </h3>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-3 text-xl">•</span>
+                            <span>Gebundenes Kapital in Fuhrpark und Lagerflächen, das in Spitzenzeiten unnötig
+                                ist.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-3 text-xl">•</span>
+                            <span>Hohe Personalkosten durch feste Anstellungen in stark schwankenden Märkten.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-3 text-xl">•</span>
+                            <span>Komplexe Wartungs- und Verwaltungskosten für die eigene Flotte.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-8 shadow-xl border-l-4 border-indigo-600 rounded-none bg-white">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                        <span class="text-4xl mr-3 text-indigo-600">✨</span> TaskRelay: Die Variable Lösung
+                    </h3>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**100% Variable Kosten:** Zahlen Sie nur für die tatsächlich erbrachte Leistung.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**Unbegrenzte Kapazität:** Sofortiger Zugriff auf ein bundesweites Partnernetzwerk.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✓</span>
+                            <span>**Garantierte Quote:** Technologie-gesteuerte 99,5% Lieferzuverlässigkeit.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tco-section" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Total Cost of Ownership (TCO) im Vergleich</h2>
+                <p class="text-xl text-gray-600">Wechseln Sie von der unsichtbaren Kostenlast zur transparenten
+                    Variabilität.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-12">
+                <div class="bg-white p-8 rounded-none shadow-xl border-t-4 border-red-600">
+                    <h3 class="text-2xl font-bold text-red-600 mb-4">Traditionelle Eigenlogistik</h3>
+                    <p class="text-3xl font-extrabold text-gray-900 mb-6">~ 120.000 € <span
+                            class="text-base font-normal text-gray-500">/ Fahrzeug/Jahr (TCO)</span></p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Abschreibung Fuhrpark</span>
+                            <span class="text-red-500">Fix</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Personal (Fahrer, Dispo)</span>
+                            <span class="text-red-500">Fix</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Versicherung & Steuern</span>
+                            <span class="text-red-500">Fix</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Krankheit & Ausfallrisiko</span>
+                            <span class="text-red-500">Fix</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    class="p-8 flex flex-col justify-center items-center text-center border-2 border-indigo-600 bg-indigo-50 rounded-none shadow-2xl">
+                    <p class="text-5xl mb-4 text-indigo-600">📈</p>
+                    <h3 class="text-2xl font-extrabold text-indigo-600 mb-4">Der TaskRelay Unterschied</h3>
+                    <p class="text-gray-800">
+                        TaskRelay fasst alle diese variablen und fixen Kosten in einer **Pay-per-Delivery-Rate**
+                        zusammen. Ihre Logistik wird zu einem transparenten Stückpreis pro Leistung.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-none shadow-xl border-t-4 border-indigo-600">
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-4">TaskRelay Logistik-as-a-Service</h3>
+                    <p class="text-3xl font-extrabold text-gray-900 mb-6">Variabel <span
+                            class="text-base font-normal text-gray-500">/ pro Zustellung</span></p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Gesamtkosten pro Auftrag</span>
+                            <span class="text-green-500">Variable</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Kapazitätserweiterung</span>
+                            <span class="text-green-500">Variable</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Software-Lizenzkosten</span>
+                            <span class="text-green-500">Variable</span>
+                        </li>
+                        <li class="flex justify-between items-center py-1 border-b border-gray-100">
+                            <span class="font-medium">Risiko & Ausfall-Management</span>
+                            <span class="text-green-500">Inklusive</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="coverage-section" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Ihre globale Logistik-Abdeckung</h2>
+                <p class="text-xl text-gray-600">Wir verbinden Europa. Skalierbare Kapazität, wo immer Sie sie brauchen.</p>
+            </div>
+
+            <div class="bg-gray-100 h-96 w-full rounded-none shadow-xl flex items-center justify-center text-gray-500 font-medium">
+                [Visualisierung: Europa-Karte mit hervorgehobenen Logistik-Hubs in D, F, NL, AT, PL]
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-lg font-bold text-gray-700">Aktive Regionen:</p>
+                <div class="flex flex-wrap justify-center space-x-6 mt-4">
+                    <span class="text-xl text-indigo-600 font-extrabold">🇩🇪</span>
+                    <span class="text-xl text-indigo-600 font-extrabold">🇫🇷</span>
+                    <span class="text-xl text-indigo-600 font-extrabold">🇳🇱</span>
+                    <span class="text-xl text-indigo-600 font-extrabold">🇦🇹</span>
+                    <span class="text-xl text-indigo-600 font-extrabold">🇵🇱</span>
+                    <span class="text-xl text-indigo-600 font-extrabold">🇨🇭</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sla-section" class="py-24 bg-indigo-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Verbindliche Leistung: Unsere SLAs</h2>
+                <p class="text-xl text-gray-600">Wir garantieren Leistung, gestützt durch transparente Kennzahlen und
+                    Vertragsbedingungen.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="p-8 bg-white rounded-none border-b-4 border-indigo-600 shadow-lg">
+                    <div class="text-5xl text-indigo-600 font-extrabold mb-4">99.5%</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Pünktlichkeits-Garantie</h3>
+                    <p class="text-gray-600 text-sm">Mindestquote an erfolgreichen und termingerechten Zustellungen.
+                        (Bei Unterschreitung erfolgt eine Gutschrift.)</p>
+                </div>
+                <div class="p-8 bg-white rounded-none border-b-4 border-indigo-600 shadow-lg">
+                    <div class="text-5xl text-indigo-600 font-extrabold mb-4">4 Stunden</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Support-Reaktionszeit</h3>
+                    <p class="text-gray-600 text-sm">Garantierte Zeit für die erste Reaktion des technischen Supports bei
+                        kritischen Systemstörungen.</p>
+                </div>
+                <div class="p-8 bg-white rounded-none border-b-4 border-indigo-600 shadow-lg">
+                    <div class="text-5xl text-indigo-600 font-extrabold mb-4">24 Stunden</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Kapazitätsaufbau</h3>
+                    <p class="text-gray-600 text-sm">Maximale Vorlaufzeit zur Aktivierung zusätzlicher, geprüfter
+                        Kapazitäten im Falle eines Spitzenbedarfs.</p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="#" class="font-bold text-lg text-indigo-600 hover:text-indigo-800 transition-all">
+                    Vollständige SLA-Dokumentation anfordern →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution-deep-dive" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Das TaskRelay Logistik-Modell</h2>
+                <p class="text-xl text-gray-600">Smarte Software trifft auf flexibles Partner-Netzwerk.</p>
+            </div>
+
+            <div class="lg:grid lg:grid-cols-2 gap-12 items-center mb-20 bg-gray-50 p-10 shadow-lg rounded-none">
+                <div class="order-1 lg:order-2">
+                    <div class="bg-gray-200 h-64 flex items-center justify-center text-gray-500 rounded-none">
+                        <span class="text-4xl text-indigo-600">🗺️</span>
+                    </div>
+                </div>
+                <div class="order-2 lg:order-1 mt-8 lg:mt-0">
+                    <span class="text-2xl font-extrabold text-indigo-600">Säule I: Digitale Steuerung</span>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-2 mb-4">Dynamische Tourenlogik in Echtzeit</h3>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✅</span>
+                            <span>**Präzise Berechnung:** Algorithmen planen Routen nach Zeitfenstern und
+                                Anforderungen (z.B. Frische).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl">✅</span>
+                            <span>**Automatisierte Disposition:** Aufträge werden dem optimalen Subunternehmer
+                                zugewiesen.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="whitepaper-section" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-4 block">WISSEN & INNOVATION</span>
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Deep Dive: Strategien zur Logistik-Skalierung</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Laden Sie unser neuestes Whitepaper herunter und erfahren Sie, wie führende Supply-Chain-Manager Fixkosten in variable, performance-basierte Ausgaben umwandeln.
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-3 text-xl">📚</span>
+                            <span>Analyse des Total Cost of Ownership (TCO)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-3 text-xl">📚</span>
+                            <span>Risikomanagement bei Kapazitätsspitzen</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-3 text-xl">📚</span>
+                            <span>Einführung in die Dynamic Logistics As-a-Service (DLaaS)</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="mt-8 inline-block font-bold py-3 px-8 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                        Whitepaper "Variable Logistik" kostenlos herunterladen
+                    </a>
+                </div>
+                <div class="mt-10 lg:mt-0 p-8 bg-white rounded-none shadow-lg flex items-center justify-center h-80">
+                    [Visualisierung: Whitepaper-Cover-Mockup]
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="news-section" class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">TaskRelay in den Medien</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 border border-gray-200 rounded-none shadow-sm hover:shadow-lg transition-all">
+                    <p class="text-xl font-bold text-gray-900 mb-2">Logistik Heute</p>
+                    <p class="text-gray-500 text-sm mb-4">04. Oktober 2025</p>
+                    <p class="text-gray-700 italic">"TaskRelay revolutioniert die 'Last Mile' durch KI-Partnernetzwerke."</p>
+                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium text-sm">Artikel lesen →</a>
+                </div>
+                <div class="p-6 border border-gray-200 rounded-none shadow-sm hover:shadow-lg transition-all">
+                    <p class="text-xl font-bold text-gray-900 mb-2">Handelsblatt</p>
+                    <p class="text-gray-500 text-sm mb-4">12. September 2025</p>
+                    <p class="text-gray-700 italic">"Der variable Logistikansatz: Wie TaskRelay Fixkosten eliminiert."</p>
+                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium text-sm">Artikel lesen →</a>
+                </div>
+                <div class="p-6 border border-gray-200 rounded-none shadow-sm hover:shadow-lg transition-all">
+                    <p class="text-xl font-bold text-gray-900 mb-2">Supply Chain World</p>
+                    <p class="text-gray-500 text-sm mb-4">28. August 2025</p>
+                    <p class="text-gray-700 italic">"Interview: Dr. Steiner über die Zukunft der agilen Lieferketten."</p>
+                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium text-sm">Artikel lesen →</a>
+                </div>
+            </div>
+            <a href="#" class="mt-12 inline-block font-bold text-lg text-gray-700 hover:text-indigo-600 transition-all">
+                Zum vollständigen Presse-Archiv →
+            </a>
+        </div>
+    </section>
+
+    <section class="py-20 bg-indigo-700 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm font-semibold text-indigo-300 uppercase tracking-widest mb-4">ERFOLG UNSERER PARTNER</p>
+            <blockquote class="text-3xl md:text-4xl italic font-serif leading-snug">
+                „Die Umstellung auf TaskRelay war der einfachste Hebel, um unsere Logistikkosten um 18% zu senken und
+                gleichzeitig die Lieferzuverlässigkeit auf ein Niveau zu heben, das wir selbst nie erreicht hätten. Das
+                ist reine Logistik-Exzellenz.“
+            </blockquote>
+            <div class="mt-8">
+                <p class="text-lg font-bold">Dr. Evelyn Steiner</p>
+                <p class="text-indigo-300">Head of Operations, FreshMarts GmbH</p>
+            </div>
+        </div>
+    </section>
+
+
+    <footer id="contact-section" class="py-24 bg-gray-900 text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20">
+            <h3 class="text-4xl font-extrabold text-white mb-6">Analysieren Sie Ihr Einsparungspotenzial.</h3>
+            <p class="text-xl text-gray-400 mb-10">Lassen Sie uns in einem unverbindlichen Gespräch Ihre aktuellen
+                Logistik-Fixkosten analysieren und das sofortige Einsparungs- und Skalierungspotenzial durch TaskRelay
+                aufzeigen.</p>
+            <a href="#contact-section"
+                class="font-bold py-4 px-10 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-2xl hover:shadow-3xl">
+                Jetzt unverbindliches Angebot anfordern
+            </a>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-700 pt-10">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-sm">
+                
+                <div class="col-span-2 md:col-span-1">
+                    <a href="index.html" class="text-2xl font-extrabold text-indigo-400 mb-4 block">TaskRelay</a>
+                    <p class="text-gray-400 text-xs mt-4">
+                        Intelligente Logistik-as-a-Service für die skalierbare Lieferkette.
+                    </p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-500 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.528-4 0v5.604h-3v-11h3v1.765c1.395-2.774 7-2.735 7 2.735v6.5z"/></svg></a>
+                        <a href="#" class="text-gray-500 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.791-1.574 2.153-2.723-.951.554-2.007.95-3.127 1.173-1.026-1.09-2.487-1.77-4.072-1.77-3.64 0-6.599 2.959-6.599 6.599 0 .518.058 1.023.158 1.51-5.483-.275-10.33-2.887-13.593-6.834-.565.977-.88 2.106-.88 3.3.0 2.285 1.166 4.305 2.934 5.489-1.076-.037-2.083-.33-2.964-.817v.08c0 3.195 2.263 5.867 5.24 6.473-.547.149-1.124.23-1.72.23-.42 0-.823-.041-1.22-.116.83 2.597 3.253 4.497 6.132 4.546-2.247 1.763-5.081 2.81-8.15 2.81-.531.0-1.055-.031-1.57-.091 2.915 1.868 6.36 2.955 10.038 2.955 12.042.0 18.679-9.916 18.679-18.68 0-.285-.008-.567-.02-.847.695-.501 1.298-1.115 1.789-1.815z"/></svg></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4">Unternehmen</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="ueber_uns.html" class="hover:text-indigo-400">Über uns & Trust</a></li>
+                        <li><a href="#news-section" class="hover:text-indigo-400">Presse & Newsroom</a></li>
+                        <li><a href="karriere.html" class="hover:text-indigo-400">Karriere</a></li>
+                        <li><a href="partner.html" class="hover:text-indigo-400">Partner werden</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4">Lösungen</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="landingpage_versender.html" class="hover:text-indigo-400">Für Versender</a></li>
+                        <li><a href="partnerportal.html" class="hover:text-indigo-400">Für Logistikpartner</a></li>
+                        <li><a href="#sla-section" class="hover:text-indigo-400">SLAs & Garantien</a></li>
+                        <li><a href="#tco-section" class="hover:text-indigo-400">TCO-Vergleich</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4">Ressourcen</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="wissen/wissen_index.html" class="hover:text-indigo-400">Wissensbasis & Blog</a></li>
+                        <li><a href="#whitepaper-section" class="hover:text-indigo-400">Whitepaper</a></li>
+                        <li><a href="status.html" class="hover:text-indigo-400">System Status</a></li>
+                        <li><a href="kontakt.html" class="hover:text-indigo-400">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 order-2 md:order-1 mt-4 md:mt-0">
+                    &copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten.
+                </p>
+                <div class="flex space-x-6 order-1 md:order-2 text-sm">
+                    <a href="impressum.html" class="text-gray-500 hover:text-indigo-400 transition">Impressum</a>
+                    <a href="datenschutz.html" class="text-gray-500 hover:text-indigo-400 transition">Datenschutz</a>
+                    <a href="agb.html" class="text-gray-500 hover:text-indigo-400 transition">AGB</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="fixed-cta hidden lg:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <p class="text-lg font-bold text-gray-800">
+                Sind Sie bereit für skalierbare Logistik? <span class="text-indigo-600">Starten Sie jetzt.</span>
+            </p>
+            <a href="#contact-section"
+                class="font-bold py-3 px-8 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                Beratung starten →
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wissensbasis & Blog | KI-Logistik, Trends und Compliance | TaskRelay</title>
+    <meta name="description" content="Tauchen Sie ein in die TaskRelay Wissensbasis: Erfahren Sie mehr über KI in der Logistik, Supply Chain Optimierung, GDP-Compliance und zukünftige Markttrends.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; 
+        }
+
+        /* Nav & Dropdown Styles */
+        .dropdown-hover:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Kategorie Card Hover */
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Search Bar Focus */
+        .search-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+    </style>
+     <script>
+        // JavaScript für die mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../marketing/landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="../marketing/partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="../loesungen/loesung_temperature.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Temperaturgeführte Transporte</a>
+                                <a href="../loesungen/loesung_ki.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-bold text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay & Trust</a>
+                                <a href="../karriere.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere</a>
+                                <a href="../status.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">System Status</a>
+                                <a href="../tools/tools_rechner.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Logistik-Rechner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="wissen_index.html" class="block px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50" role="menuitem">Wissensbasis & Blog</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="../kontakt.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">Kontakt</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="../login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="../kontakt.html#sales"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                </div>
+        </div>
+    </nav>
+    <header class="bg-indigo-600 pt-16 pb-24 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-extrabold leading-tight mb-4">
+                TaskRelay Wissensbasis
+            </h1>
+            <p class="text-xl text-indigo-200 mb-8">
+                Ihr Fachwissen über KI-gestützte Logistik, Compliance und Markttrends.
+            </p>
+            
+            <div class="relative max-w-xl mx-auto">
+                <input type="search" placeholder="Artikel, Stichwort oder Thema suchen..." 
+                       class="search-input w-full py-4 pl-12 pr-4 text-gray-900 rounded-xl shadow-lg border border-transparent focus:ring-2 focus:ring-indigo-300">
+                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="py-20 -mt-10 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-10 text-center">Top-Kategorien</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <a href="#ki" class="category-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:border-indigo-500">
+                    <svg class="h-10 w-10 text-indigo-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 7h2m10 0h2M5 13h2m10 0h2M11 5h2M11 19h2M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">KI & Technologie</h3>
+                    <p class="text-sm text-gray-600">Deep Dives, Algorithmen und die Zukunft der Logistik-Automatisierung.</p>
+                </a>
+
+                <a href="#compliance" class="category-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:border-indigo-500">
+                    <svg class="h-10 w-10 text-green-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.24c-.035-.119-.18-.21-.318-.21h-5.467c-.138 0-.283.091-.318.21l-2.022 6.507c-.054.17-.001.365.125.498l1.455 1.455c.164.164.067.423-.178.528a25.962 25.962 0 01-1.077.332c-.085.023-.17.042-.255.059-.086.018-.173.027-.26.027-.14 0-.276-.025-.407-.074-.131-.05-.256-.123-.37-.216l-.888-.707a.997.997 0 00-1.258.106l-2.022 6.507c-.054.17-.001.365.125.498l1.455 1.455c.164.164.067.423-.178.528a25.962 25.962 0 01-1.077.332c-.085.023-.17.042-.255.059-.086.018-.173.027-.26.027-.14 0-.276-.025-.407-.074-.131-.05-.256-.123-.37-.216l-.888-.707a.997.997 0 00-1.258.106z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Compliance & Sicherheit</h3>
+                    <p class="text-sm text-gray-600">Alles zu $\text{GDP}$, $\text{DSGVO}$ und den Sicherheitsstandards in der Supply Chain.</p>
+                </a>
+                
+                <a href="#cases" class="category-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:border-indigo-500">
+                    <svg class="h-10 w-10 text-yellow-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Anwendungsfälle & Studien</h3>
+                    <p class="text-sm text-gray-600">Wie führende Unternehmen mit TaskRelay $\text{ROI}$ erzielen und die Kosten senken.</p>
+                </a>
+                
+                <a href="#partner" class="category-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:border-indigo-500">
+                    <svg class="h-10 w-10 text-pink-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-3V7m6 7v3m-3-3V7m0 7h-2M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Partner & Flotte</h3>
+                    <p class="text-sm text-gray-600">Informationen zur Zusammenarbeit, Onboarding und dem Partner Portal.</p>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+    
+    
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-10 text-center">Aktuelle Veröffentlichungen</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-100">
+                    <img src="https://via.placeholder.com/600x350/374151/f9fafb?text=KI+Optimierung" alt="KI Routenoptimierung" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-indigo-600 uppercase">KI & Technologie</span>
+                        <h3 class="mt-2 text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer">
+                            Hyper-Personalisierung: Wie KI die Last-Mile-Effizienz revolutioniert
+                        </h3>
+                        <p class="mt-3 text-gray-600 text-sm line-clamp-3">
+                            Ein tiefer Einblick in die Algorithmen, die TaskRelay nutzt, um in städtischen Gebieten die kürzesten und umweltfreundlichsten Routen zu planen...
+                        </p>
+                        <div class="mt-4 flex justify-between items-center text-xs text-gray-500">
+                            <span>von Dr. Anna Maier</span>
+                            <span>2 Min Lesezeit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-100">
+                    <img src="https://via.placeholder.com/600x350/065f46/d1fae5?text=GDP+Compliance" alt="GDP Compliance" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-green-600 uppercase">Compliance & Sicherheit</span>
+                        <h3 class="mt-2 text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer">
+                            Die 5 goldenen Regeln der Kühlketten-Dokumentation $(\text{GDP})$
+                        </h3>
+                        <p class="mt-3 text-gray-600 text-sm line-clamp-3">
+                            Ein Leitfaden für Pharma-Logistikmanager: Wie Sie Audit-Sicherheit gewährleisten und die Integrität Ihrer Produkte schützen...
+                        </p>
+                        <div class="mt-4 flex justify-between items-center text-xs text-gray-500">
+                            <span>von Compliance-Team</span>
+                            <span>4 Min Lesezeit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-100">
+                    <img src="https://via.placeholder.com/600x350/92400e/fef3c7?text=Case+Study" alt="Case Study ROI" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-yellow-700 uppercase">Anwendungsfälle & Studien</span>
+                        <h3 class="mt-2 text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer">
+                            Case Study: $\text{30\%}$ Kosteneinsparung in 6 Monaten bei einem Großversender
+                        </h3>
+                        <p class="mt-3 text-gray-600 text-sm line-clamp-3">
+                            Detaillierte Analyse, wie unser Kunde MaxMustermann Logistik seine Extrabord-Kosten durch die TaskRelay-Plattform optimieren konnte...
+                        </p>
+                        <div class="mt-4 flex justify-between items-center text-xs text-gray-500">
+                            <span>von Marketing-Team</span>
+                            <span>5 Min Lesezeit</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#archiv" class="inline-flex items-center px-6 py-3 border border-indigo-600 text-base font-bold rounded-lg text-indigo-600 hover:bg-indigo-50 transition duration-300">
+                    Alle Artikel im Archiv ansehen
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                
+                <div>
+                    <h3 class="text-2xl font-extrabold text-indigo-400 mb-4">TaskRelay</h3>
+                    <p class="text-sm text-gray-400">
+                        KI-Logistik-Plattform <br>
+                        Hauptquartier Europa <br>
+                        Logistikring 42 <br>
+                        10115 Berlin, Deutschland
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Plattform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../marketing/landingpage_versender.html" class="text-gray-400 hover:text-indigo-400">Für Versender</a></li>
+                        <li><a href="../marketing/partnerportal.html" class="text-gray-400 hover:text-indigo-400">Partner werden</a></li>
+                        <li><a href="../login.html" class="text-gray-400 hover:text-indigo-400">Login</a></li>
+                        <li><a href="../registrierung.html" class="text-gray-400 hover:text-indigo-400">Registrieren</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Unternehmen</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../ueber_uns.html" class="text-gray-400 hover:text-indigo-400">Über uns</a></li>
+                        <li><a href="../karriere.html" class="text-gray-400 hover:text-indigo-400">Karriere</a></li>
+                        <li><a href="../status.html" class="text-gray-400 hover:text-indigo-400">System Status</a></li>
+                        <li><a href="../kontakt.html" class="text-gray-400 hover:text-indigo-400">Kontakt & Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 md:col-span-2">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Ressourcen & Rechtliches</h4>
+                    <ul class="space-y-2 text-sm grid grid-cols-2">
+                        <li><a href="../tools/tools_rechner.html" class="text-gray-400 hover:text-indigo-400">Logistik-Rechner</a></li>
+                        <li><a href="../pages/impressum.html" class="text-gray-400 hover:text-indigo-400">Impressum</a></li>
+                        <li><a href="../pages/datenschutz.html" class="text-gray-400 hover:text-indigo-400">Datenschutz</a></li>
+                        <li><a href="../pages/agb.html" class="text-gray-400 hover:text-indigo-400">AGB</a></li>
+                        <li><a href="wissen_index.html" class="text-gray-400 hover:text-indigo-400 font-bold">Wissensbasis</a></li>
+                        <li><a href="../trustcenter.html" class="text-gray-400 hover:text-indigo-400">Trust Center</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 order-2 md:order-1 mt-4 md:mt-0">
+                    &copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten. KI-gestützte Logistik.
+                </p>
+                <div class="flex space-x-6 order-1 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.528-4 0v5.604h-3v-11h3v1.765c1.395-2.774 7-2.735 7 2.735v6.5z"/></svg></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.791-1.574 2.153-2.723-.951.554-2.007.95-3.127 1.173-1.026-1.09-2.487-1.77-4.072-1.77-3.64 0-6.599 2.959-6.599 6.599 0 .518.058 1.023.158 1.51-5.483-.275-10.33-2.887-13.593-6.834-.565.977-.88 2.106-.88 3.3.0 2.285 1.166 4.305 2.934 5.489-1.076-.037-2.083-.33-2.964-.817v.08c0 3.195 2.263 5.867 5.24 6.473-.547.149-1.124.23-1.72.23-.42 0-.823-.041-1.22-.116.83 2.597 3.253 4.497 6.132 4.546-2.247 1.763-5.081 2.81-8.15 2.81-.531.0-1.055-.031-1.57-.091 2.915 1.868 6.36 2.955 10.038 2.955 12.042.0 18.679-9.916 18.679-18.68 0-.285-.008-.567-.02-.847.695-.501 1.298-1.115 1.789-1.815z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

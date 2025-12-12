@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status - TaskRelay | Echtzeit Verfügbarkeit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb; /* Leichter Off-White/Blau-Grau */
+        }
+
+        /* Hero Stil: RUNDUNGEN ENTFERNT, HÖHE STRAFFER, klare Trennung */
+        .status-hero {
+            background-color: #1e293b; /* Slate-800 */
+            color: white;
+            padding-bottom: 4rem; /* Weniger Padding unten */
+            /* border-radius entfernt */
+            box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.15); /* Weniger aggressiver Schatten */
+        }
+
+        .status-indicator {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .status-indicator.operational {
+            background-color: #10b981; /* Emerald-500 */
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .status-indicator.minor-outage {
+            background-color: #f59e0b; /* Amber-500 */
+            color: white;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .component-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-dot-green {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.75rem;
+        }
+
+        .status-dot-yellow {
+            width: 10px;
+            height: 10px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.75rem;
+        }
+
+        /* Simulierter Uptime Graph */
+        .uptime-graph {
+            height: 50px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            display: flex;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .uptime-bar {
+            height: 100%;
+            display: block;
+            width: 3%;
+            background-color: #10b981; 
+        }
+        
+        .uptime-bar.outage {
+            background-color: #ef4444; 
+            width: 0.5%;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+
+            function updateTime() {
+                const now = new Date();
+                const timeOptions = { 
+                    year: 'numeric', 
+                    month: '2-digit', 
+                    day: '2-digit', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit', 
+                    hour12: false 
+                };
+                document.getElementById('current-time').textContent = now.toLocaleDateString('de-DE', timeOptions);
+            }
+            updateTime();
+            setInterval(updateTime, 60000); 
+        });
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+            <div class="space-x-4">
+                <a href="trustcenter.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Trust Center</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="status-hero pt-16 pb-16 md:pt-20 md:pb-16 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4">
+                TaskRelay System Status & Metriken
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                Echtzeit-Transparenz über die Verfügbarkeit, Performance und operative Integrität unserer Plattform.
+            </p>
+            
+            <div class="status-indicator operational mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Alle Systeme Funktional | 90 Tage Uptime: 99.98%
+            </div>
+            <p class="mt-4 text-sm text-gray-400">Status aktualisiert: <span id="current-time"></span> (CET)</p>
+            
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8 border-b-2 border-indigo-100 pb-3">Aktuelle Service-Status Übersicht</h2>
+                
+                <div class="space-y-6">
+                    
+                    <div class="component-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <span class="status-dot-green"></span>
+                                <span class="text-xl font-bold text-gray-800">Core API & KI Matchmaking Engine</span>
+                            </div>
+                            <span class="text-base font-medium text-green-600">Operational</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-3">Zuständig für Routenberechnung, Preisvorschläge und Auftragsvermittlung.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Verfügbarkeit letzte 90 Tage: 99.99%</span>
+                            <span>Durchschnittliche Latenz: 45 ms</span>
+                        </div>
+                        <div class="uptime-graph mt-2">
+                            <span class="uptime-bar" style="width: 30%;"></span>
+                            <span class="uptime-bar" style="width: 15%;"></span>
+                            <span class="uptime-bar outage" style="width: 0.5%;"></span>
+                            <span class="uptime-bar" style="width: 54.5%;"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <span class="status-dot-green"></span>
+                                <span class="text-xl font-bold text-gray-800">Partner & Kunden Portale (Web/Mobile Frontend)</span>
+                            </div>
+                            <span class="text-base font-medium text-green-600">Operational</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-3">Web-Dashboard für Disponenten und mobile Anwendungen für Fahrer.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Verfügbarkeit letzte 90 Tage: 99.98%</span>
+                            <span>Ladezeit: 1.2 Sekunden</span>
+                        </div>
+                        <div class="uptime-graph mt-2">
+                            <span class="uptime-bar" style="width: 99.5%;"></span>
+                            <span class="uptime-bar outage" style="width: 0.5%;"></span>
+                        </div>
+                    </div>
+
+                    <div class="component-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <span class="status-dot-green"></span>
+                                <span class="text-xl font-bold text-gray-800">Garantierte Zahlungsabwicklung & Factoring</span>
+                            </div>
+                            <span class="text-base font-medium text-green-600">Operational</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-3">Integration zu externen Bank- und Versicherungsdienstleistern.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Verfügbarkeit letzte 90 Tage: 100%</span>
+                            <span>Transaktionszeit: 200 ms</span>
+                        </div>
+                        <div class="uptime-graph mt-2">
+                            <span class="uptime-bar" style="width: 100%;"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <span class="status-dot-yellow"></span>
+                                <span class="text-xl font-bold text-gray-800">Telematik & Data Integration Service</span>
+                            </div>
+                            <span class="text-base font-medium text-yellow-600">Minor Outage</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-3">Dienst zur Verarbeitung von GPS- und Telematikdaten von Drittsystemen.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Verfügbarkeit letzte 90 Tage: 99.95%</span>
+                            <span>Datenverarbeitungslatenz: 2-5 Sekunden (derzeit erhöht)</span>
+                        </div>
+                        <div class="uptime-graph mt-2">
+                            <span class="uptime-bar" style="width: 70%;"></span>
+                            <span class="uptime-bar outage" style="width: 10%;"></span>
+                            <span class="uptime-bar" style="width: 19.5%;"></span>
+                        </div>
+                        <div class="mt-3 p-2 bg-yellow-50 text-yellow-800 text-sm rounded border border-yellow-200">
+                            **Incident:** Aktuell reduzierte Verarbeitungsgeschwindigkeit (seit 12:45 Uhr). Live-Tracking ist beeinträchtigt, aber funktionstüchtig. Kern-API ist nicht betroffen.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mb-12 mt-20 p-8 bg-white rounded-xl shadow-lg border border-gray-100">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 border-b-2 border-gray-100 pb-3">Vorfallhistorie (Letzte 12 Monate)</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-3 px-1 font-medium text-sm text-gray-600 w-1/5">Datum</th>
+                                <th class="py-3 px-1 font-medium text-sm text-gray-600 w-1/5">Status</th>
+                                <th class="py-3 px-1 font-medium text-sm text-gray-600 w-3/5">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b text-gray-700">
+                                <td class="py-3 px-1">2025-12-11</td>
+                                <td class="py-3 px-1 text-yellow-600 font-semibold">Minor Outage</td>
+                                <td class="py-3 px-1">Erhöhte Latenz im Data Integration Service (Dauer: 45 min). Ursache: Datenbank-Replikationsverzögerung.</td>
+                            </tr>
+                            <tr class="border-b text-gray-700">
+                                <td class="py-3 px-1">2025-10-15</td>
+                                <td class="py-3 px-1 text-red-600 font-semibold">Downtime</td>
+                                <td class="py-3 px-1">Vollständiger Ausfall der Partner Portale aufgrund eines fehlerhaften Deployment (Dauer: 12 min). Erfolgreicher Rollback.</td>
+                            </tr>
+                            <tr class="border-b text-gray-700">
+                                <td class="py-3 px-1">2025-08-22</td>
+                                <td class="py-3 px-1 text-green-600 font-semibold">Maintenance</td>
+                                <td class="py-3 px-1">Geplante Wartung zur Datenbank-Migration (03:00-04:30 Uhr). Keine Beeinträchtigung der Kernfunktionen.</td>
+                            </tr>
+                            <tr class="text-gray-700">
+                                <td class="py-3 px-1">2025-05-05</td>
+                                <td class="py-3 px-1 text-yellow-600 font-semibold">Degraded</td>
+                                <td class="py-3 px-1">Kurzfristige Beeinträchtigung der API-Geschwindigkeit durch DDoS-Simulations-Test.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-6">
+                         <a href="https://status.taskrelay.com/history" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-all">
+                            Vollständiges Archiv ansehen →
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center mt-16 p-8 bg-indigo-100 rounded-xl border border-indigo-300 shadow-md">
+                <p class="text-2xl font-bold text-indigo-800 mb-3">Lassen Sie sich informieren</p>
+                <p class="text-gray-700 mb-6 max-w-2xl mx-auto">
+                    Abonnieren Sie unsere Status-Updates. Wir informieren Sie sofort per E-Mail, wenn es zu einer Störung kommt oder eine geplante Wartung ansteht.
+                </p>
+                <a href="https://status.taskrelay.com/subscribe" target="_blank" class="inline-block font-bold py-3 px-10 rounded-full transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transform hover:scale-105">
+                    Updates abonnieren
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center mt-20">
+        <p class="text-gray-500 text-sm">
+            &copy; <span id="current-year">2025</span> TaskRelay GmbH. | 
+            <a href="trustcenter.html" class="hover:text-indigo-400">Trust Center</a> | 
+            <a href="impressum.html" class="hover:text-indigo-400">Impressum</a>
+        </p>
+    </footer>
+    </body>
+
+</html>

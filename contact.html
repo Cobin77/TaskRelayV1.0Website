@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskRelay - Kontakt & Global Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importiert Google Font 'Inter' für professionelle Typografie */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hero Stil mit dunklerem Akzent */
+        .contact-hero {
+            background-color: #f8fafc; /* Gray-50 */
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Fokus-Formular-Stil */
+        .focus-form {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 4px solid #4f46e5;
+        }
+
+        /* Support-Karten-Stil */
+        .support-card {
+            transition: transform 0.3s, border-color 0.3s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .support-card:hover {
+            transform: translateY(-2px);
+            border-color: #4f46e5;
+        }
+        
+        /* Standort-Map Placeholder */
+        .map-placeholder {
+            min-height: 400px;
+            background-color: #e5e7eb;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</head>
+
+<body class="bg-white antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600">TaskRelay</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#sales" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Sales</a>
+                    <a href="#support" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Support</a>
+                    <a href="#offices" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Standorte</a>
+                </div>
+                <a href="#support"
+                    class="font-bold py-2 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md">Direktsupport</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="sales" class="contact-hero pt-24 pb-20 md:pt-36 md:pb-28">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <div>
+                    <p class="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-4">LOGISTIK VORSPRUNG</p>
+                    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
+                        Starten Sie mit einer <span class="text-indigo-600">persönlichen Demo.</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 max-w-lg">
+                        Vereinbaren Sie einen Termin mit unserem Expertenteam und sehen Sie, wie TaskRelay Ihre Logistikkosten senkt und die Effizienz steigert.
+                    </p>
+                    <div class="flex flex-col space-y-4 max-w-xs">
+                        <a href="mailto:sales@taskrelay.com" class="text-lg font-bold text-gray-900 flex items-center">
+                            <span class="text-indigo-600 mr-2">✉️</span> sales@taskrelay.com
+                        </a>
+                        <a href="tel:+49891234510" class="text-lg font-bold text-gray-900 flex items-center">
+                            <span class="text-indigo-600 mr-2">📞</span> +49 89 12345-10
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-white rounded-lg focus-form">
+                    <h2 class="text-2xl font-bold mb-6 text-center text-gray-900">Demo jetzt anfragen</h2>
+                    <form action="#" method="POST" class="space-y-4">
+                        <div>
+                            <input type="text" placeholder="Name und Vorname" required
+                                class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Geschäftliche E-Mail" required
+                                class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Unternehmen" required
+                                class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <textarea placeholder="Ihre Nachricht / Anforderung" rows="3"
+                                class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit"
+                                class="w-full font-bold py-3 px-4 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg">
+                                Demo-Termin vereinbaren
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="support" class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-sm font-bold text-gray-500 tracking-widest uppercase mb-2 block">SUPPORT-KANÄLE</span>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Schnelle Hilfe für Partner & Kunden</h2>
+                <p class="text-xl text-gray-600">Wählen Sie den schnellsten Weg zur Lösung Ihres Anliegens.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="p-6 bg-white rounded-lg shadow-md support-card">
+                    <span class="text-3xl text-red-500 block mb-3">🚨</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Operative Notfälle (24/7)</h3>
+                    <p class="text-gray-700 mb-4">Für dringende Transportstörungen oder Systemausfälle.</p>
+                    <p class="font-bold text-2xl text-red-600 mb-2">+49 89 12345-80</p>
+                    <p class="text-sm text-gray-500">Dieser Kanal ist Bestandskunden und Partnern vorbehalten.</p>
+                </div>
+                
+                <div class="p-6 bg-white rounded-lg shadow-md support-card">
+                    <span class="text-3xl text-indigo-600 block mb-3">💬</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Technischer Support & API</h3>
+                    <p class="text-gray-700 mb-4">Fragen zu APIs, Integrationen und technischen Spezifikationen.</p>
+                    <a href="#" class="font-bold text-indigo-600 hover:text-indigo-800 flex items-center">
+                        Zum TaskRelay Ticketsystem →
+                    </a>
+                    <p class="text-sm text-gray-500 mt-4">Anmeldung über das Partner-/Kunden-Dashboard erforderlich.</p>
+                </div>
+
+                <div class="p-6 bg-white rounded-lg shadow-md support-card">
+                    <span class="text-3xl text-green-600 block mb-3">📚</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Hilfecenter & Dokumentation</h3>
+                    <p class="text-gray-700 mb-4">Antworten auf Standardfragen, Onboarding-Guides und Tutorials.</p>
+                    <a href="#" class="font-bold text-indigo-600 hover:text-indigo-800 flex items-center">
+                        Zum TaskRelay Help Center →
+                    </a>
+                    <p class="text-sm text-gray-500 mt-4">Rund um die Uhr zugänglich, auch ohne Login.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-lg text-gray-700">Oder senden Sie uns eine allgemeine Anfrage an: <a href="mailto:info@taskrelay.com" class="text-indigo-600 font-semibold hover:underline">info@taskrelay.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="offices" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Globale Präsenz</h2>
+                <p class="text-xl text-gray-600">Unsere Hubs in den wichtigsten Logistikregionen Europas.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 mb-12">
+                <div class="p-6 bg-white rounded-lg shadow-xl border-t-4 border-indigo-600">
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-2 flex items-center">
+                        <span class="text-3xl mr-2">🇩🇪</span> Hauptsitz München
+                    </h3>
+                    <p class="text-gray-700 mb-4">Zentrale Entwicklung, AI-Forschung & Management (HQ).</p>
+                    <address class="text-gray-700 not-italic">
+                        TaskRelay GmbH<br>
+                        Technologie-Allee 5<br>
+                        80331 München, Deutschland
+                    </address>
+                </div>
+                <div class="p-6 bg-white rounded-lg shadow-xl border-t-4 border-indigo-600">
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-2 flex items-center">
+                        <span class="text-3xl mr-2">🇳🇱</span> Regional Hub Amsterdam
+                    </h3>
+                    <p class="text-gray-700 mb-4">Operations und Partner-Support für die Benelux-Region.</p>
+                    <address class="text-gray-700 not-italic">
+                        TaskRelay B.V.<br>
+                        Logistiekstraat 10<br>
+                        1000 AB Amsterdam, Niederlande
+                    </address>
+                </div>
+            </div>
+
+            <div class="map-placeholder mt-12 rounded-lg">
+                [Interaktive Karte: TaskRelay Global Hubs]
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="font-bold text-lg text-gray-600 hover:text-indigo-600 transition-all">
+                    Vollständiges Impressum und juristische Angaben →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 bg-gray-900 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-extrabold text-white mb-6">Wir verbinden Ihre Logistik mit Intelligenz.</h3>
+            <p class="text-lg text-gray-400 mb-8">Nehmen Sie Kontakt auf, um das volle Potenzial von TaskRelay zu entdecken.</p>
+            <a href="#sales"
+                class="font-bold py-3 px-8 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                Direktanfrage stellen
+            </a>
+        </div>
+
+        <div class="mt-12 text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> TaskRelay. Alle Rechte vorbehalten. | <a href="#" class="hover:text-indigo-400">Impressum</a> | <a href="#" class="hover:text-indigo-400">Datenschutz</a>
+        </div>
+    </footer>
+</body>
+
+</html>

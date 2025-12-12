@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whitepaper: AI Governance in der Logistik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hero Stil für Whitepaper-Fokus */
+        .wp-hero {
+            background-color: #1f2937; /* Gray-800 */
+            background-image: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+        }
+
+        /* Haupt-Inhaltsbox mit Schatten */
+        .content-box {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</head>
+
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <nav class="bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-bold text-indigo-600">TaskRelay</span>
+                </div>
+                <div class="hidden md:block">
+                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Zurück zur Hauptseite</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="wp-hero py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            <div class="lg:grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7">
+                    <span class="text-sm font-bold text-indigo-400 tracking-widest uppercase mb-4 block">EXKLUSIVES WHITEPAPER</span>
+                    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-snug mb-6">
+                        AI Governance in der Logistik:
+                        <span class="text-indigo-400">Transparenz, Ethik und Skalierbarkeit.</span>
+                    </h1>
+                    <p class="text-xl text-indigo-200 mb-8">
+                        Erfahren Sie, wie TaskRelay eine regelkonforme und ethische KI-Strategie implementiert, die den Grundstein für eine vertrauenswürdige, hochmoderne Logistik bildet. Ein Muss für CIOs und Compliance-Beauftragte.
+                    </p>
+                    <div class="flex items-center space-x-6">
+                        <p class="text-sm font-bold text-white">Umfang: 18 Seiten</p>
+                        <p class="text-sm font-bold text-white">Focus: B2B/Enterprise</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 mt-12 lg:mt-0">
+                    <div class="bg-white p-8 md:p-10 rounded-none content-box text-gray-900">
+                        <h2 class="text-2xl font-bold mb-6 text-center">Whitepaper jetzt anfordern</h2>
+                        <form action="#" method="POST" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" id="name" name="name" required
+                                    class="mt-1 block w-full border border-gray-300 rounded-none shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Geschäftliche E-Mail</label>
+                                <input type="email" id="email" name="email" required
+                                    class="mt-1 block w-full border border-gray-300 rounded-none shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-gray-700">Unternehmen</label>
+                                <input type="text" id="company" name="company" required
+                                    class="mt-1 block w-full border border-gray-300 rounded-none shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit"
+                                    class="w-full font-bold py-3 px-4 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg">
+                                    Kostenlos herunterladen
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 text-center mt-3">
+                                Ihre Daten werden streng vertraulich behandelt (siehe Datenschutz).
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="highlights" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Was Sie in diesem Whitepaper lernen</h2>
+                <p class="text-xl text-gray-600">Die wichtigsten Kapitel für Ihre Entscheidungsfindung.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-10">
+                <div class="p-6 border-t-4 border-indigo-600 bg-gray-50 rounded-none content-box">
+                    <span class="text-4xl text-indigo-600 block mb-3">🔎</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Erklärbare KI (XAI)</h3>
+                    <p class="text-gray-700">Detaillierte Einsicht in die Algorithmen, die unsere Routen- und Preisentscheidungen treffen, um volle Transparenz zu gewährleisten.</p>
+                </div>
+                <div class="p-6 border-t-4 border-indigo-600 bg-gray-50 rounded-none content-box">
+                    <span class="text-4xl text-indigo-600 block mb-3">⚖️</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Regulatorische Compliance</h3>
+                    <p class="text-gray-700">Wie TaskRelay sich aktiv auf zukünftige EU-Regularien (z.B. AI Act) vorbereitet und DSGVO-konform arbeitet.</p>
+                </div>
+                <div class="p-6 border-t-4 border-indigo-600 bg-gray-50 rounded-none content-box">
+                    <span class="text-4xl text-indigo-600 block mb-3">🛡️</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Operationales Risiko-Management</h3>
+                    <p class="text-gray-700">Strategien zur Vermeidung von Fehlern, Bias und Ausfällen durch KI, gestützt durch robuste Failover-Systeme.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-indigo-600 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <blockquote class="text-3xl italic font-serif leading-snug">
+                „In der Logistik ist Vertrauen die härteste Währung. Unsere AI Governance ist unser Versprechen an unsere Kunden: Technologie, die dient, nicht dominiert.“
+            </blockquote>
+            <div class="mt-8">
+                <p class="text-lg font-bold">Mehdi Oublal</p>
+                <p class="text-indigo-200">CEO & Gründer, TaskRelay</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact-footer" class="py-16 bg-gray-900 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-extrabold text-white mb-6">Sichern Sie Ihre Logistik-Zukunft.</h3>
+            <p class="text-lg text-gray-400 mb-8">Laden Sie das Whitepaper herunter und starten Sie den Dialog mit unseren Technologieexperten.</p>
+            <a href="#top"
+                class="font-bold py-3 px-8 rounded-none transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                Jetzt Whitepaper anfordern
+            </a>
+        </div>
+
+        <div class="mt-12 text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> TaskRelay. Logistik-Intelligenz.
+        </div>
+    </footer>
+</body>
+
+</html>

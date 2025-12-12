@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistik-Glossar | Fachbegriffe der Supply Chain | TaskRelay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Hellerer Hintergrund für mehr Kontrast */
+        }
+
+        /* Nav & Dropdown Styles (Beibehalten) */
+        .dropdown-hover:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Alphabet Navigation Styles */
+        .alphabet-nav a {
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            color: #4b5563; /* Grau Standard */
+        }
+        .alphabet-nav a:hover {
+            background-color: #e0e7ff; 
+            color: #4f46e5;
+        }
+        .alphabet-nav a.active {
+            background-color: #4f46e5; 
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3), 0 2px 4px -2px rgba(79, 70, 229, 0.1);
+            pointer-events: none;
+        }
+
+        /* Definition Styles Upgrade */
+        .definition-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s;
+        }
+        .definition-item:hover {
+            background-color: #f9fafb; /* Leichter Hover-Effekt */
+        }
+        .definition-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sticky-sidebar {
+            top: 6.5rem; /* Abstand unter dem Header */
+        }
+    </style>
+     <script>
+        // JavaScript für die mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // JavaScript für die alphabetische Navigation (Scroll-Funktion + Active State)
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.alphabet-nav a');
+            
+            function scrollToLetter(letter) {
+                const element = document.getElementById('letter-' + letter);
+                if (element) {
+                    const offset = 100; 
+                    window.scrollTo({
+                        top: element.offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const letter = this.getAttribute('href').replace('#letter-', '');
+                    scrollToLetter(letter);
+                });
+            });
+
+            // Active State beim Scrollen (optional, aber gut für UX)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const letter = entry.target.id.replace('letter-', '');
+                    const link = document.querySelector(`.alphabet-nav a[href="#letter-${letter}"]`);
+                    
+                    if (link) {
+                        // Überprüfe, ob der Buchstabe im Viewport ist (für den oberen Teil)
+                        if (entry.isIntersecting && entry.boundingClientRect.top < window.innerHeight / 2) {
+                            navLinks.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        } else if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+                            // Wenn wir nach oben scrollen und den Abschnitt verlassen
+                             link.classList.remove('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '0px 0px -50% 0px', threshold: 0.1 }); // Trigger, wenn der Abschnitt oben im Viewport erscheint
+
+            document.querySelectorAll('[id^="letter-"]').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="../partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <a href="../loesung_ki.html" class="block px-4 py-2 text-sm font-semibold text-indigo-600 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay</a>
+                                <a href="../karriere.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere & Jobs</a>
+                                <a href="../trustcenter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Trust Center & Sicherheit</a>
+                                <a href="../status.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">System Status</a>
+                                <a href="../tools/tools_rechner.html" class="block px-4 py-2 text-sm text-indigo-600 font-medium hover:bg-gray-100" role="menuitem">Logistik-Rechner (SEO)</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="../kontakt.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">Kontakt</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="../login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="../kontakt.html#sales"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                
+                <div class="border-b border-gray-100 pb-2">
+                    <p class="px-3 pt-2 text-sm font-bold text-gray-500">Lösungen</p>
+                    <a href="../landingpage_versender.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Für Versender</a>
+                    <a href="../partnerportal.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Für Logistikpartner</a>
+                    <a href="../loesung_ki.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-gray-50">KI Frachtoptimierung</a>
+                </div>
+
+                <div class="border-b border-gray-100 pb-2 pt-2">
+                    <p class="px-3 text-sm font-bold text-gray-500">Unternehmen & Ressourcen</p>
+                    <a href="../ueber_uns.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Über TaskRelay</a>
+                    <a href="../karriere.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Karriere & Jobs</a>
+                    <a href="../trustcenter.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Trust Center & Sicherheit</a>
+                    <a href="../status.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">System Status</a>
+                    <a href="../tools/tools_rechner.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-gray-50">Logistik-Rechner (SEO)</a>
+                </div>
+                
+                <a href="../kontakt.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Kontakt</a>
+                
+            </div>
+            
+            <div class="pt-4 pb-3 border-t border-gray-100 px-4 space-y-2">
+                <a href="../login.html" class="block w-full text-center py-2 px-4 border border-gray-300 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
+                    Login
+                </a>
+                <a href="../kontakt.html#sales" class="block w-full text-center py-2 px-4 border border-transparent rounded-md text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700">
+                    Demo anfragen
+                </a>
+            </div>
+        </div>
+    </nav>
+    <header class="bg-indigo-700 text-white pt-16 pb-12 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-lg font-semibold text-indigo-300 mb-2">WISSEN & VERSTÄNDNIS</p>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-3">
+                Das TaskRelay Logistik-Glossar
+            </h1>
+            <p class="mt-4 text-xl text-indigo-200 max-w-4xl mx-auto">
+                Die wichtigsten Fachbegriffe aus Supply Chain Management, KI-Optimierung und Extrabord-Logistik, einfach erklärt.
+            </p>
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="sticky top-16 z-10 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg p-3 mb-12 shadow-xl alphabet-nav">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <a href="#letter-A">A</a>
+                    <a href="#letter-B">B</a>
+                    <a href="#letter-C">C</a>
+                    <a href="#letter-D">D</a>
+                    <a href="#letter-E">E</a>
+                    <a href="#letter-F">F</a>
+                    <a href="#letter-G">G</a>
+                    <a href="#letter-H">H</a>
+                    <a href="#letter-I">I</a>
+                    <a href="#letter-L">L</a>
+                    <a href="#letter-M">M</a>
+                    <a href="#letter-P">P</a>
+                    <a href="#letter-S">S</a>
+                    <a href="#letter-T">T</a>
+                    <a href="#letter-W">W</a>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                
+                <div class="md:col-span-2 bg-white rounded-xl shadow-2xl border border-gray-100 divide-y divide-gray-100">
+                    
+                    <h2 id="letter-A" class="bg-gray-50 text-2xl font-extrabold text-gray-900 px-6 py-4 sticky top-36 border-b border-gray-200">A</h2>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">AGB (Allgemeine Geschäftsbedingungen)</h3>
+                        <p class="text-gray-600">Standardisierte Vertragsbedingungen, die die Basis für das Verhältnis zwischen TaskRelay und seinen Kunden oder Partnern bilden. <a href="../impressum.html" class="text-indigo-600 hover:text-indigo-800 font-medium">Weiterlesen zu unseren AGB</a>.</p>
+                    </div>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">AI Governance (Künstliche Intelligenz Governance)</h3>
+                        <p class="text-gray-600">Regelwerk und Prozesse, die die ethische, transparente und sichere Nutzung von KI-Systemen (wie in TaskRelay) sicherstellen. Dies beinhaltet Datensicherheit und faire Entscheidungsfindung.</p>
+                    </div>
+                    
+                    <h2 id="letter-B" class="bg-gray-50 text-2xl font-extrabold text-gray-900 px-6 py-4 sticky top-36 border-b border-gray-200">B</h2>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">Blockchain in der Logistik</h3>
+                        <p class="text-gray-600">Dezentrale, unveränderliche Datenbank zur lückenlosen und transparenten Dokumentation von Transportketten, z.B. zur Fälschungssicherheit oder Herkunftsnachweisen.</p>
+                    </div>
+                    
+                    <h2 id="letter-C" class="bg-gray-50 text-2xl font-extrabold text-gray-900 px-6 py-4 sticky top-36 border-b border-gray-200">C</h2>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">Carrier</h3>
+                        <p class="text-gray-600">Transportunternehmen, das die physische Beförderung von Gütern durchführt (Frachtführer, Spediteur). TaskRelay verbindet Versender direkt mit geprüften Carriern.</p>
+                    </div>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">CO2-Fußabdruck</h3>
+                        <p class="text-gray-600">Gesamte Menge an Treibhausgasemissionen, die durch einen Transport verursacht wird. Kann mit unserem <a href="../tools/co2-rechner.html" class="text-indigo-600 hover:text-indigo-800 font-medium">CO2-Rechner</a> geschätzt werden. **SEO-Tipp: Verlinkt zu Ihrem Tool!**</p>
+                    </div>
+                    
+                    <h2 id="letter-L" class="bg-gray-50 text-2xl font-extrabold text-gray-900 px-6 py-4 sticky top-36 border-b border-gray-200">L</h2>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">LDM (Lademeter)</h3>
+                        <p class="text-gray-600">Maßeinheit zur Berechnung des benötigten Platzes auf einem LKW. 1 LDM entspricht 1 Meter Ladelänge auf der vollen Breite eines Standard-LKWs (ca. 2,4m). <a href="../tools/tools_rechner.html" class="text-indigo-600 hover:text-indigo-800 font-medium">Zur Berechnung</a>.</p>
+                    </div>
+                    
+                    <h2 id="letter-T" class="bg-gray-50 text-2xl font-extrabold text-gray-900 px-6 py-4 sticky top-36 border-b border-gray-200">T</h2>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">TCO (Total Cost of Ownership)</h3>
+                        <p class="text-gray-600">Die gesamten Kosten, die über die gesamte Lebensdauer eines Transportmittels oder Prozesses anfallen (inkl. Fixkosten, variablen Kosten, Wartung, etc.). TaskRelay hilft, die TCO durch Optimierung zu senken.</p>
+                    </div>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">TMS (Transport Management System)</h3>
+                        <p class="text-gray-600">Software zur Planung, Durchführung und Optimierung des physischen Warenverkehrs. TaskRelay integriert sich nahtlos in bestehende TMS-Lösungen.</p>
+                    </div>
+                    <div class="definition-item">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-1">Telematik</h3>
+                        <p class="text-gray-600">Die Integration von Telekommunikation und Informatik zur Übertragung von Daten über weite Strecken, z.B. zur Echtzeit-Ortung von LKWs und Überwachung von Fahrzeugdaten.</p>
+                    </div>
+
+                    <div class="p-8 text-center bg-gray-50 rounded-b-xl">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-3">
+                            Ihr Begriff fehlt? Fragen Sie unseren Logistik-Bot!
+                        </h4>
+                        <p class="text-gray-600 mb-6">
+                            Wenn Sie eine sofortige Definition benötigen, kontaktieren Sie unser Support-Team oder fordern Sie eine Demo unserer KI-Lösung an.
+                        </p>
+                        <a href="../kontakt.html#support" class="inline-block py-3 px-8 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-all shadow-md">
+                            Zum Support-Kontakt
+                        </a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-1">
+                    <div class="sticky-sidebar sticky">
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-indigo-100 mb-6">
+                            <h4 class="text-lg font-bold text-indigo-700 mb-3">Relevante Tools</h4>
+                            <p class="text-sm text-gray-600 mb-4">Nutzen Sie unsere kostenlosen Rechner für die operative Planung:</p>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="../tools/co2-rechner.html" class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">
+                                        <span class="text-green-500 mr-2">🌍</span> $\text{CO}2$-Emissionsrechner
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../tools/tools_rechner.html" class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">
+                                        <span class="text-yellow-500 mr-2">⚖️</span> Gewicht & Volumen (LDM)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">
+                                        <span class="text-blue-500 mr-2">⏱️</span> Lenk- & Ruhezeiten (TBA)
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-indigo-600 p-6 rounded-xl shadow-lg text-white">
+                            <h4 class="text-xl font-bold mb-3">Ihr KI-Vorteil</h4>
+                            <p class="text-indigo-200 mb-4 text-sm">
+                                TaskRelay nutzt KI, um die Begriffe dieses Glossars in die Praxis umzusetzen: Effizienz und Nachhaltigkeit.
+                            </p>
+                            <a href="../loesung_ki.html" class="w-full inline-block text-center py-2.5 px-4 bg-white text-indigo-600 font-bold rounded-lg hover:bg-gray-100 transition-all text-sm shadow-md">
+                                KI-Funktionen entdecken
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center pb-12 border-b border-gray-800">
+                <h3 class="text-3xl font-extrabold text-white mb-4">
+                    TaskRelay: Ihr Weg zur Extrabord-Logistik-Intelligenz.
+                </h3>
+                <a href="../kontakt.html#sales"
+                    class="inline-block font-bold py-3 px-8 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                    Demo anfragen
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
+                
+                <div class="col-span-2 md:col-span-1">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-400">TaskRelay</a>
+                    <p class="text-sm text-gray-400 mt-4 max-w-xs">
+                        Wir treiben die Transformation der Logistik durch KI und agile Partnernetzwerke voran.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition-all" aria-label="LinkedIn">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.75s.784-1.75 1.75-1.75 1.75.79 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.518-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition-all" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35c-0.732 0-1.325 0.593-1.325 1.325v21.351c0 0.731 0.593 1.324 1.325 1.324h21.35c0.732 0 1.325-0.593 1.325-1.324v-21.351c0-0.732-0.593-1.325-1.325-1.325zm-11.838 20.311v-9.28h-3.136v-3.666h3.136v-2.272c0-3.085 1.87-4.787 4.659-4.787 1.325 0 2.464 0.099 2.798 0.143v3.25l-1.928 0.001c-1.512 0-1.802 0.718-1.802 1.772v2.36h3.633l-0.473 3.666h-3.16v9.28h-3.66zm9.338 0h3.66v-9.28h-3.66v9.28z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Plattform</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../landingpage_versender.html" class="text-gray-400 hover:text-indigo-400 transition-all">Für Versender (B2B)</a></li>
+                        <li><a href="../partnerportal.html" class="text-gray-400 hover:text-indigo-400 transition-all">Für Logistikpartner</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-indigo-400 transition-all">API & Integration</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-indigo-400 transition-all">Whitepaper: AI Governance</a></li>
+                        <li><a href="../tools/tools_rechner.html" class="text-indigo-400 hover:text-white transition-all">Logistik-Rechner</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Unternehmen</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../ueber_uns.html" class="text-gray-400 hover:text-indigo-400 transition-all">Über uns & Werte</a></li>
+                        <li><a href="../karriere.html" class="text-gray-400 hover:text-indigo-400 transition-all">Karriere & Jobs</a></li>
+                        <li><a href="../kontakt.html" class="text-gray-400 hover:text-indigo-400 transition-all">Global Support</a></li>
+                        <li><a href="../trustcenter.html" class="text-gray-400 hover:text-indigo-400 transition-all">Trust Center</a></li>
+                        <li><a href="../status.html" class="text-gray-400 hover:text-indigo-400 transition-all">System Status</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Kontakt Zentrale</h4>
+                    <div class="space-y-3 text-sm text-gray-400">
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📍</span> Technologie-Allee 5, 80331 München, Deutschland
+                        </p>
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📞</span> <a href="tel:+4989123450" class="hover:text-indigo-400">+49 (0)89 12345-0</a>
+                        </p>
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📧</span> <a href="mailto:info@taskrelay.com" class="hover:text-indigo-400">info@taskrelay.com</a>
+                        </p>
+                    </div>
+                    
+                    <h4 class="text-base font-semibold mb-2 mt-6 text-gray-200">Operativer Support (24/7)</h4>
+                    <p class="text-sm text-gray-400">
+                        <a href="tel:+49891234580" class="text-red-500 hover:text-red-400 font-bold">+49 (0)89 12345-80</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-gray-800 text-sm text-center md:text-left text-gray-500">
+                <div class="md:flex justify-between items-center">
+                    <p>&copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten.</p>
+                    <div class="mt-4 md:mt-0 space-x-4">
+                        <a href="../impressum.html" class="hover:text-indigo-400 transition-all">Impressum</a>
+                        <a href="../datenschutz.html" class="hover:text-indigo-400 transition-all">Datenschutz</a>
+                        <a href="#" class="hover:text-indigo-400 transition-all">AGB</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const yearElement = document.getElementById('current-year');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            });
+        </script>
+    </footer>
+    </body>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archiv der Systemvorfälle - TaskRelay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Heller Hintergrund */
+        }
+
+        .archive-hero {
+            background-color: #1e293b; /* Dunkler Header */
+            color: white;
+            padding-bottom: 4rem;
+            box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-operational { background-color: #d1fae5; color: #059669; } 
+        .badge-degraded { background-color: #fef3c7; color: #d97706; } 
+        .badge-downtime { background-color: #fee2e2; color: #dc2626; } 
+        .badge-maintenance { background-color: #e0f7fa; color: #00bcd4; } /* Hellblau für Wartung */
+        
+        .incident-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .incident-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .year-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+        .year-separator::before,
+        .year-separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px solid #cbd5e1;
+        }
+        .year-separator:not(:empty)::before {
+            margin-right: .5em;
+        }
+        .year-separator:not(:empty)::after {
+            margin-left: .5em;
+        }
+    </style>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+            <div class="space-x-4">
+                <a href="status.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Zurück zum Live Status</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="archive-hero pt-16 pb-12 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-5xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3">
+                Vollständiges Vorfall-Archiv
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Detaillierte Post-Mortem Berichte und Chronologie aller Systemvorfälle und Wartungen seit Start.
+            </p>
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <section class="mb-12">
+                
+                <div class="year-separator">
+                    <h2 class="text-3xl font-extrabold text-gray-900 px-4">2026</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    
+                    <a href="incident_detail.html?id=20260115" class="block">
+                        <div class="incident-card p-6 border-l-4 border-red-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Vollständiger Ausfall der Partner Portale (Frontend)</h3>
+                                <span class="status-badge badge-downtime">Downtime</span>
+                            </div>
+                            <p class="text-sm font-medium text-gray-500 mb-3">15. Januar 2026 | 14:00 - 14:12 Uhr (CET)</p>
+                            
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <p><span class="font-bold">Betroffene Komponenten:</span> Partner Portal, Kunden Portal</p>
+                                <p><span class="font-bold">Ursache:</span> Fehlerhaftes Konfigurations-Deployment</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                
+                <div class="year-separator">
+                    <h2 class="text-3xl font-extrabold text-gray-900 px-4">2025</h2>
+                </div>
+                
+                <div class="space-y-6">
+
+                    <a href="incident_detail.html?id=20251211" class="block">
+                        <div class="incident-card p-6 border-l-4 border-yellow-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Erhöhte Latenz im Telematik & Data Integration Service</h3>
+                                <span class="status-badge badge-degraded">Minor Outage</span>
+                            </div>
+                            <p class="text-sm font-medium text-gray-500 mb-3">11. Dezember 2025 | 12:45 - 13:30 Uhr (CET)</p>
+                            
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <p><span class="font-bold">Betroffene Komponenten:</span> Telematik Service</p>
+                                <p><span class="font-bold">Ursache:</span> Datenbank-Replikationsverzögerung</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="incident_detail.html?id=20250822" class="block">
+                        <div class="incident-card p-6 border-l-4 border-teal-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Geplante Wartung: Datenbank-Migration (Kein Ausfall)</h3>
+                                <span class="status-badge badge-maintenance">Maintenance</span>
+                            </div>
+                            <p class="text-sm font-medium text-gray-500 mb-3">22. August 2025 | 03:00 - 04:30 Uhr (CET)</p>
+                            
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <p><span class="font-bold">Betroffene Komponenten:</span> Primäre Logistik-DB</p>
+                                <p><span class="font-bold">Hinweis:</span> Durchführung außerhalb der Kernzeiten.</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="incident_detail.html?id=20250505" class="block">
+                        <div class="incident-card p-6 border-l-4 border-yellow-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Kurzfristige Beeinträchtigung der Core-API Geschwindigkeit</h3>
+                                <span class="status-badge badge-degraded">Degraded Performance</span>
+                            </div>
+                            <p class="text-sm font-medium text-gray-500 mb-3">05. Mai 2025 | 10:00 - 10:15 Uhr (CET)</p>
+                            
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <p><span class="font-bold">Betroffene Komponenten:</span> Core API</p>
+                                <p><span class="font-bold">Ursache:</span> Fehlerhafter interner Lasttest</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                </div>
+                
+                <div class="mt-12 text-center text-gray-500 text-base p-4 border-t border-gray-300">
+                    <p>Möchten Sie über neue Vorfälle informiert werden? <a href="https://status.taskrelay.com/subscribe" target="_blank" class="text-indigo-600 font-semibold hover:underline">Updates abonnieren</a></p>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center mt-20">
+        <p class="text-gray-500 text-sm">
+            &copy; 2025 TaskRelay GmbH. | 
+            <a href="status.html" class="hover:text-indigo-400">System Status</a> | 
+            <a href="trustcenter.html" class="hover:text-indigo-400">Trust Center</a>
+        </p>
+    </footer>
+
+</body>
+
+</html>

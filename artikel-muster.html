@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel | TaskRelay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; 
+        }
+
+        /* Nav & Dropdown Styles (Beibehalten) */
+        .dropdown-hover:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
+        .dropdown-menu { display: none; opacity: 0; transform: translateY(-5px); transition: opacity 0.3s ease, transform 0.3s ease; }
+
+        /* DYNAMISCHE TYPOGRAFIE (Basierend auf den JSON-Typen) */
+        #article-content h2 {
+            font-size: 1.875rem; /* 3xl */
+            font-weight: 700; /* bold */
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        #article-content h3 {
+            font-size: 1.5rem; /* 2xl */
+            font-weight: 600; /* semibold */
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        #article-content p {
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+        #article-content ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+        #article-content blockquote {
+            border-left: 4px solid #4f46e5;
+            padding-left: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+            background-color: #eef2ff;
+            padding: 1rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 1. Artikel-ID aus URL-Parameter auslesen (simuliert)
+            // Hier nutzen wir direkt die feste ID aus dem JSON, da wir keine echten URL-Parameter haben.
+            const requestedArticleId = 'artikelID_ki_optimierung'; 
+
+            async function loadArticle(articleId) {
+                try {
+                    // 2. JSON-Daten laden
+                    const response = await fetch('./artikel-daten.json');
+                    const data = await response.json();
+                    const article = data[articleId];
+
+                    if (!article) {
+                        document.getElementById('article-title').textContent = 'Artikel nicht gefunden';
+                        document.getElementById('article-content').innerHTML = '<p>Der angefragte Artikel existiert nicht mehr oder wurde verschoben.</p>';
+                        return;
+                    }
+
+                    // 3. SEO- und Header-Daten setzen
+                    document.title = article.titel + ' | TaskRelay';
+                    document.getElementById('article-category').textContent = article.kategorie;
+                    document.getElementById('article-title').textContent = article.titel;
+                    document.getElementById('author-name').textContent = 'Von ' + article.autorName;
+                    document.getElementById('author-titel').textContent = article.autorTitel;
+                    document.getElementById('author-img').alt = 'Autor ' + article.autorName;
+                    document.getElementById('date-time').textContent = 'Veröffentlicht am ' + article.datum;
+                    document.getElementById('read-time').textContent = article.lesezeitMin + ' Min Lesezeit';
+
+                    // 4. Hauptinhalt dynamisch rendern
+                    const contentContainer = document.getElementById('article-content');
+                    article.abschnitte.forEach(section => {
+                        let element;
+                        
+                        // Fügt HTML-Markup (z.B. für Fettschrift oder LaTeX) in den Inhalt ein
+                        const processedContent = section.inhalt 
+                            ? section.inhalt.replace(/\\(.*?)\$/g, (match, p1) => {
+                                // Vereinfachte Injektion von LaTeX/HTML für Beispielzwecke
+                                if (p1.startsWith('text')) {
+                                    return `<span>${p1.substring(4)}</span>`;
+                                }
+                                return p1; // Gibt unveränderte Zeichenkette zurück
+                            })
+                            : ''; 
+
+                        switch (section.typ) {
+                            case 'h2':
+                                element = document.createElement('h2');
+                                element.innerHTML = processedContent;
+                                break;
+                            case 'h3':
+                                element = document.createElement('h3');
+                                element.innerHTML = processedContent;
+                                break;
+                            case 'absatz':
+                                element = document.createElement('p');
+                                element.innerHTML = processedContent;
+                                break;
+                            case 'liste':
+                                element = document.createElement('ul');
+                                section.punkte.forEach(point => {
+                                    const li = document.createElement('li');
+                                    li.innerHTML = point;
+                                    element.appendChild(li);
+                                });
+                                break;
+                            case 'feature_liste':
+                                element = document.createElement('ul');
+                                element.className = 'list-none space-y-3';
+                                section.punkte.forEach(point => {
+                                    const li = document.createElement('li');
+                                    li.className = 'flex items-start';
+                                    li.innerHTML = `
+                                        <svg class="h-6 w-6 text-indigo-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                                        <span class="font-semibold">${point}</span>
+                                    `;
+                                    element.appendChild(li);
+                                });
+                                break;
+                            case 'zitat':
+                                element = document.createElement('blockquote');
+                                element.innerHTML = `${processedContent}<br>– **${section.quelle}**`;
+                                break;
+                            default:
+                                // Unbekannter Typ ignorieren
+                                return;
+                        }
+                        contentContainer.appendChild(element);
+                    });
+
+                    // 5. Bild-Element setzen (für die erste Abbildung)
+                    const figure = document.getElementById('article-figure');
+                    if (article.bildURL) {
+                        figure.innerHTML = `
+                            <img src="${article.bildURL}" alt="${article.bildCaption}" class="w-full rounded-lg shadow-md">
+                            <figcaption class="text-sm text-center text-gray-500 mt-2">${article.bildCaption}</figcaption>
+                        `;
+                        figure.style.display = 'block';
+                    }
+                    
+                } catch (error) {
+                    console.error('Fehler beim Laden oder Parsen des Artikels:', error);
+                    document.getElementById('article-title').textContent = 'Fehler beim Laden';
+                    document.getElementById('article-content').innerHTML = '<p>Wir konnten die Artikeldaten leider nicht laden. Bitte versuchen Sie es später erneut.</p>';
+                }
+            }
+
+            loadArticle(requestedArticleId);
+        });
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../marketing/landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="../marketing/partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="../loesungen/loesung_temperature.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Temperaturgeführte Transporte</a>
+                                <a href="../loesungen/loesung_ki.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-bold text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay & Trust</a>
+                                <a href="../karriere.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere</a>
+                                <a href="../status.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">System Status</a>
+                                <a href="../tools/tools_rechner.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Logistik-Rechner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="wissen_index.html" class="block px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50" role="menuitem">Wissensbasis & Blog</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="../kontakt.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">Kontakt</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="../login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="../kontakt.html#sales"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                </div>
+        </div>
+    </nav>
+    <header class="pt-16 pb-12 bg-white border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm font-semibold text-indigo-600 uppercase tracking-wider mb-2">
+                <a href="wissen_index.html" class="hover:underline" id="article-category">Kategorie wird geladen...</a>
+                <span class="text-gray-400 mx-2">/</span> Expertenartikel
+            </p>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4" id="article-title">
+                Titel wird geladen...
+            </h1>
+            
+            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full mr-2" src="https://via.placeholder.com/150/d1d5db/374151?text=AM" alt="Autor" id="author-img">
+                    <span id="author-name">Von Autor</span>
+                </div>
+                <span>|</span>
+                <span id="date-time">Datum</span>
+                <span>|</span>
+                <span id="read-time">Lesezeit</span>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+                
+                <article class="lg:col-span-8 bg-white p-6 rounded-xl shadow-lg">
+                    
+                    <figure class="mb-8" id="article-figure" style="display:none;">
+                        </figure>
+
+                    <div id="article-content">
+                        <p>Inhalt wird geladen...</p>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <p class="text-xs text-gray-500 italic">Haftungsausschluss: Die genannten $\text{ROI}$-Werte sind Schätzungen und können je nach Implementierung und Region variieren.</p>
+                    </div>
+
+                </article>
+
+                <aside class="lg:col-span-4 mt-10 lg:mt-0">
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-8 text-center">
+                        <img class="h-20 w-20 rounded-full mx-auto mb-4" src="https://via.placeholder.com/150/d1d5db/374151?text=AM" alt="Autor" id="author-box-img">
+                        <h3 class="text-xl font-bold text-gray-900" id="author-box-name">Über Dr. Anna Maier</h3>
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span id="author-box-titel">Dr. Maier ist die Leiterin der KI-Forschung bei TaskRelay und spezialisiert auf Machine Learning und Graphentheorie zur Optimierung komplexer Netzwerke.</span>
+                        </p>
+                        <a href="../kontakt.html#presse" class="text-indigo-600 text-sm font-semibold mt-4 block hover:underline">Kontaktieren Sie unsere Presseabteilung</a>
+                    </div>
+                    
+                    <div class="bg-indigo-600 p-6 rounded-xl shadow-lg text-white text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-3">Ihre Routen optimieren?</h3>
+                        <p class="text-indigo-200 mb-4 text-sm">Finden Sie heraus, wie viel Ihr Unternehmen sparen kann.</p>
+                        <a href="../kontakt.html#sales" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-lg shadow-md text-indigo-700 bg-yellow-400 hover:bg-yellow-300 transition duration-300">
+                            Kostenlose Demo anfragen
+                        </a>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Verwandte Artikel</h3>
+                        <ul class="space-y-4">
+                            <li class="text-sm">
+                                <a href="#" class="font-semibold text-gray-700 hover:text-indigo-600">Die Rolle des Quantencomputing in der Logistik</a>
+                                <p class="text-xs text-gray-500">Kategorie: KI & Technologie</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                
+                </div>
+
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 order-2 md:order-1 mt-4 md:mt-0">
+                    &copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten. KI-gestützte Logistik.
+                </p>
+                <div class="flex space-x-6 order-1 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.528-4 0v5.604h-3v-11h3v1.765c1.395-2.774 7-2.735 7 2.735v6.5z"/></svg></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.791-1.574 2.153-2.723-.951.554-2.007.95-3.127 1.173-1.026-1.09-2.487-1.77-4.072-1.77-3.64 0-6.599 2.959-6.599 6.599 0 .518.058 1.023.158 1.51-5.483-.275-10.33-2.887-13.593-6.834-.565.977-.88 2.106-.88 3.3.0 2.285 1.166 4.305 2.934 5.489-1.076-.037-2.083-.33-2.964-.817v.08c0 3.195 2.263 5.867 5.24 6.473-.547.149-1.124.23-1.72.23-.42 0-.823-.041-1.22-.116.83 2.597 3.253 4.497 6.132 4.546-2.247 1.763-5.081 2.81-8.15 2.81-.531.0-1.055-.031-1.57-.091 2.915 1.868 6.36 2.955 10.038 2.955 12.042.0 18.679-9.916 18.679-18.68 0-.285-.008-.567-.02-.847.695-.501 1.298-1.115 1.789-1.815z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

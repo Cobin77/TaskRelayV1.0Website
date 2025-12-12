@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Center & Sicherheit - TaskRelay GmbH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+        }
+
+        .trust-hero {
+            background-color: #0f172a; /* Slate-900 */
+            background-image: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .trust-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 100% 100%, #1e293b 1px, transparent 1px),
+                              radial-gradient(circle at 0% 0%, #1e293b 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .trust-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .trust-section {
+            border-bottom: 2px solid #e0e7ff; /* Indigo-100 */
+            padding-bottom: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            color: #1e40af; /* Blue-800 */
+            background-color: #eff6ff; /* Blue-50 */
+            border: 1px solid #bfdbfe; /* Blue-200 */
+        }
+        
+        .feature-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Icons for visual enhancement */
+        .icon-shield::before { content: '🛡️'; margin-right: 0.5rem; }
+        .icon-lock::before { content: '🔒'; margin-right: 0.5rem; }
+        .icon-cpu::before { content: '🧠'; margin-right: 0.5rem; }
+        .icon-reg::before { content: '📜'; margin-right: 0.5rem; }
+        .icon-finance::before { content: '💰'; margin-right: 0.5rem; }
+        .icon-alert::before { content: '🚨'; margin-right: 0.5rem; }
+
+        /* Accordion (FAQ Style) */
+        .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+            max-height: 1000px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Zurück zur Startseite</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="trust-hero pt-16 pb-12 md:pt-24 md:pb-16 text-center">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 trust-content">
+            <p class="text-lg font-semibold text-indigo-400 mb-2">MAXIMALE SICHERHEIT, VOLLE TRANSPARENZ</p>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+                TaskRelay Trust Center Deep Dive
+            </h1>
+            <p class="mt-4 text-xl text-gray-300 max-w-4xl mx-auto">
+                Detaillierte Offenlegung unserer Sicherheitsarchitektur, Compliance-Prozesse, KI-Governance und Governance-Richtlinien.
+            </p>
+            <div class="mt-8">
+                <a href="https://status.taskrelay.com" target="_blank" class="inline-flex items-center text-sm font-medium text-gray-200 hover:text-indigo-400 transition-all">
+                    Aktuelle System-Verfügbarkeit prüfen (Real-Time Status Page) →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="space-y-20 text-gray-700">
+
+                <section id="it-security" class="trust-section">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-10 icon-shield">1. TaskRelay Sicherheitsarchitektur & Resilienz</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        
+                        <div>
+                            <h3 class="text-2xl font-bold text-indigo-700 mb-4">Cloud- und Netzwerksicherheit</h3>
+                            <p class="text-gray-700 mb-4">Wir betreiben unsere Infrastruktur in zertifizierten, hochsicheren Multi-Cloud-Umgebungen in Deutschland und Irland. Wir trennen Umgebungen strikt (Dev/Stage/Prod).</p>
+
+                            <table class="w-full text-left border-collapse mt-4">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-3 font-medium text-sm text-gray-600">Kontrollbereich</th>
+                                        <th class="p-3 font-medium text-sm text-gray-600">Spezifikation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-medium">Data at Rest</td>
+                                        <td class="p-3">AES-256 Verschlüsselung (Speicher & Datenbanken)</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-medium">Data in Transit</td>
+                                        <td class="p-3">TLS 1.3 mit HSTS-Erzwingung</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-medium">Firewalling</td>
+                                        <td class="p-3">WAF (Web Application Firewall) mit Geo-Blocking</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium">Intrusion Detection</td>
+                                        <td class="p-3">Echtzeit-Monitoring und SIEM-Lösung</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-bold text-indigo-700 mb-4">Sicherheitsmanagement & Testing</h3>
+                            <p class="text-gray-700 mb-4">Unser ISMS (Information Security Management System) orientiert sich an ISO 27001. Wir betreiben aktive Security Testing zur Reduzierung der Angriffsfläche.</p>
+                            
+                            <ul class="list-disc pl-5 mt-4 space-y-3">
+                                <li>**Vulnerability Management:** Kontinuierliches Scannen von Code, Containern und Infrastruktur (Minimum wöchentlich).</li>
+                                <li>**Bug Bounty Programm:** Offenes Programm zur Identifizierung kritischer Lücken durch externe Forscher.</li>
+                                <li>**Code Reviews:** Obligatorische Peer Reviews und statische Code-Analyse (SAST) vor jedem Deployment.</li>
+                                <li>**Endpoint Protection:** Alle Mitarbeiter-Endgeräte sind mit EDR/MFA gesichert.</li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </section>
+
+                <section id="compliance" class="trust-section">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-10 icon-reg">2. Global & Regulatorische Compliance</h2>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        
+                        <div class="feature-card border-l-4 border-indigo-500">
+                            <h4 class="font-bold text-xl text-indigo-700 mb-2">DSGVO & Datenschutz</h4>
+                            <p class="text-sm text-gray-600">Serverstandorte in der EU. Standard-AVV (Auftragsverarbeitungsvertrag) gemäß Art. 28 DSGVO für alle Kunden. Protokollierung von Betroffenenanfragen.</p>
+                        </div>
+                        
+                        <div class="feature-card border-l-4 border-indigo-500">
+                            <h4 class="font-bold text-xl text-indigo-700 mb-2">HGB, CMR & Haftung</h4>
+                            <p class="text-sm text-gray-600">Unsere Verträge (AGB) regeln die Haftung zwischen Versender und Logistikpartner klar nach HGB und CMR. Dies sichert die rechtliche Basis der Auftragsdurchführung.</p>
+                        </div>
+                        
+                        <div class="feature-card border-l-4 border-indigo-500">
+                            <h4 class="font-bold text-xl text-indigo-700 mb-2">Wirtschafts- und Exportkontrolle</h4>
+                            <p class="text-sm text-gray-600">TaskRelay führt regelmäßige Prüfungen gegen relevante Sanktionslisten durch, um internationale Handelsbestimmungen einzuhalten.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-gray-900 mt-12 mb-6">Menschliche Governance und Richtlinien</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-xl text-indigo-700 mb-2">Governance-Dokumente</h4>
+                            <p class="text-gray-700">Wir arbeiten nach klaren, internen Richtlinien. Die Zusammenfassungen sind für Enterprise-Kunden im Onboarding-Prozess zugänglich:</p>
+                            <ul class="list-disc pl-5 mt-3 text-gray-600">
+                                <li>TaskRelay Code of Conduct (Ethikkodex)</li>
+                                <li>Information Security Policy (ISP)</li>
+                                <li>Data Retention Policy (Datenaufbewahrung)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-indigo-700 mb-2">Mitarbeiter-Sicherheitsschulungen</h4>
+                            <p class="text-gray-700">Obligatorische, quartalsweise Schulungen zu Phishing, Social Engineering und Datenhandling. Jede technische Abteilung hat einen dedizierten Security-Champion.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="ai-governance" class="trust-section">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-10 icon-cpu">3. KI-Governance: Erklärbarkeit, Fairness & Risikomanagement</h2>
+                    
+                    <div class="grid md:grid-cols-4 gap-6">
+                        <div class="feature-card border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg text-purple-700">Modell-Lifecycle</h4>
+                            <p class="text-sm mt-2">Jede KI-Änderung durchläuft einen **MDR (Model Development Review)**, der von Compliance und Data Science gemeinsam abgenommen wird (Versionierung & Rollback-Fähigkeit).</p>
+                        </div>
+                        <div class="feature-card border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg text-purple-700">Fairness-Testing</h4>
+                            <p class="text-sm mt-2">Wir nutzen **A/B-Bias-Testing**, um sicherzustellen, dass Preis- und Matching-Entscheidungen fair sind und keine Logistikpartner aufgrund von Geografie oder Unternehmensgröße benachteiligen.</p>
+                        </div>
+                        <div class="feature-card border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg text-purple-700">Risikoklassifizierung</h4>
+                            <p class="text-sm mt-2">Die TaskRelay-Matching-KI ist als **Minimal Risk** (EU AI Act) eingestuft, da sie unterstützend agiert und immer menschliche Disponenten-Kontrolle zulässt.</p>
+                        </div>
+                        <div class="feature-card border-l-4 border-purple-500">
+                            <h4 class="font-bold text-lg text-purple-700">Shadow Mode</h4>
+                            <p class="text-sm mt-2">Neue Modelle laufen erst monatelang im **Shadow Mode** neben dem Produktivsystem, um Stabilität und Fairness unter Realbedingungen zu testen, bevor sie live gehen.</p>
+                        </div>
+                    </div>
+
+                    <a href="../marketing/whitepaper_ai_governance.html" class="inline-block mt-8 text-indigo-600 font-semibold hover:text-indigo-800 transition-all">
+                        Detailliertes Whitepaper zur AI Governance (PDF) →
+                    </a>
+                </section>
+                
+                <section id="transparency" class="trust-section">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-10 icon-finance">4. Vertragliche Transparenz und Service Levels</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div>
+                            <h3 class="text-2xl font-bold text-indigo-700 mb-4">Service Level Agreement (SLA)</h3>
+                            <p class="text-gray-700 mb-4">Unsere Verpflichtungen gegenüber Enterprise-Kunden sind klar definiert:</p>
+                            <table class="w-full text-left border-collapse mt-4">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-3 font-medium text-sm text-gray-600">Kennzahl</th>
+                                        <th class="p-3 font-medium text-sm text-gray-600">Garantie</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-medium">Ziel-Verfügbarkeit</td>
+                                        <td class="p-3">99.95% (jährlich)</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-medium">Reaktionszeit (Kritisch)</td>
+                                        <td class="p-3">15 Minuten (24/7)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium">Planned Maintenance</td>
+                                        <td class="p-3">Außerhalb der Peak-Zeiten (max. 1 Stunde/Quartal)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-indigo-700 mb-4">Finanzielle Stabilität und Versicherung</h3>
+                            <p class="text-gray-700 mb-4">Wir sichern unsere Verpflichtungen doppelt ab:</p>
+                            <ul class="list-disc pl-5 mt-4 space-y-3">
+                                <li>**Venture Capital Funding:** Langfristige Finanzierung durch renommierte Log-Tech-Investoren (Series B).</li>
+                                <li>**Betriebshaftpflicht:** Umfassende Cyber- und Betriebshaftpflichtversicherung (mindestens $10M Deckung).</li>
+                                <li>**Zahlungsgarantie:** Die 7-Tage-Auszahlung für Partner ist durch einen **Drittanbieter-Kreditversicherer** abgesichert.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact-faq">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-10 icon-alert">5. Incident Management und Deep Dive FAQs</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-red-800 mb-4">Incident Management Plan (IRP)</h3>
+                            <p class="text-gray-700 mb-4">Unser IRP definiert die Schritte von der Erkennung bis zur Behebung eines Sicherheitsvorfalls. Alle Kunden werden bei relevanten Vorfällen innerhalb der gesetzlichen Fristen informiert.</p>
+                            
+                            <div class="p-6 bg-red-50 rounded-lg border border-red-200">
+                                <h4 class="font-bold text-red-900">Meldestelle für Sicherheit (PGP-Key verfügbar)</h4>
+                                <p class="mt-2 font-mono text-red-900">security@taskrelay.com</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-bold text-indigo-700 mb-4">Deep Dive FAQs (Erweiterte Fragen)</h3>
+                            
+                            <div class="space-y-3">
+                                <div class="accordion-item border border-gray-200 rounded-lg">
+                                    <label class="flex justify-between items-center p-4 cursor-pointer" for="faq-1">
+                                        <span class="font-semibold text-gray-900">Wie werden Zugangsdaten gespeichert?</span>
+                                        <span class="text-indigo-600 text-xl font-bold">+</span>
+                                    </label>
+                                    <input type="checkbox" id="faq-1" class="hidden">
+                                    <div class="accordion-content text-gray-700">
+                                        <p>Alle Passwörter werden unter Verwendung branchenüblicher, gehärteter Hash-Funktionen (z.B. Argon2 oder bcrypt) mit individuellen Salts gespeichert. Passwörter sind nicht im Klartext auslesbar.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item border border-gray-200 rounded-lg">
+                                    <label class="flex justify-between items-center p-4 cursor-pointer" for="faq-2">
+                                        <span class="font-semibold text-gray-900">Welche Rolle hat TaskRelay beim Thema Haftung?</span>
+                                        <span class="text-indigo-600 text-xl font-bold">+</span>
+                                    </label>
+                                    <input type="checkbox" id="faq-2" class="hidden">
+                                    <div class="accordion-content text-gray-700">
+                                        <p>TaskRelay ist der Vermittler. Der Transportvertrag kommt zwischen Versender und Logistikpartner zustande. TaskRelay haftet für die Plattformfunktion und die Garantierte Zahlung, nicht für den physischen Transport (diese Haftung liegt beim Logistikpartner nach HGB/CMR).</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center">
+        <p class="text-gray-500 text-sm">
+            &copy; <span id="current-year">2025</span> TaskRelay GmbH. | 
+            <a href="impressum.html" class="hover:text-indigo-400">Impressum</a> | 
+            <a href="datenschutz.html" class="hover:text-indigo-400">Datenschutz</a> |
+            <a href="agb.html" class="hover:text-indigo-400">AGB</a>
+        </p>
+    </footer>
+    </body>
+
+</html>

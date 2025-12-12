@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKW Lenk- und Ruhezeit Rechner | TaskRelay Compliance Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; 
+        }
+
+        /* Nav & Dropdown Styles */
+        .dropdown-hover:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Tool Card Styles */
+        .calculator-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .result-box {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .result-box.safe {
+            background-color: #ecfdf5; 
+            border-left: 5px solid #10b981; /* Grün */
+        }
+        .result-box.warning {
+            background-color: #fefce8; 
+            border-left: 5px solid #f59e0b; /* Gelb */
+        }
+        .result-box.danger {
+            background-color: #fef2f2; 
+            border-left: 5px solid #ef4444; /* Rot */
+        }
+
+        /* Icon for SEO */
+        .icon-compliance::before { content: '⏱️'; margin-right: 0.5rem; }
+    </style>
+     <script>
+        // JavaScript für die mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // LENK- UND RUHEZEIT RECHNER LOGIK (VEREINFACHT)
+        function berechneFahrzeiten() {
+            // Holen der Eingabewerte
+            const fahrzeitHeute = parseFloat(document.getElementById('fahrzeitHeute').value) || 0;
+            const ruhezeitGestern = parseFloat(document.getElementById('ruhezeitGestern').value) || 0;
+            
+            // Konvertierung in Minuten für einfache Berechnung
+            const fahrzeitHeuteMin = fahrzeitHeute * 60;
+            const ruhezeitGesternMin = ruhezeitGestern * 60;
+
+            // Definition der Regeln (Stunden)
+            const MAX_FAHRZEIT_TAG = 9; // Maximal 9 Stunden pro Tag (kann 2x pro Woche auf 10 erhöht werden)
+            const MIN_RUHEZEIT_REGEL = 11; // Standard: 11 Stunden Ruhezeit
+            const MIN_RUHEZEIT_REDUZIERT = 9; // Reduziert: 9 Stunden (max. 3x pro Woche)
+
+            // Berechnungsergebnisse
+            let restFahrzeitHeute = MAX_FAHRZEIT_TAG - fahrzeitHeute;
+            let ruhezeitCompliance = "OK";
+            let fahrzeitCompliance = "OK";
+            let complianceText = "";
+            let resultBoxClass = "safe";
+
+            // 1. Überprüfung der Lenkzeit heute
+            if (fahrzeitHeute > MAX_FAHRZEIT_TAG) {
+                if (fahrzeitHeute > 10) {
+                     fahrzeitCompliance = "GEFAHR";
+                     resultBoxClass = "danger";
+                     complianceText += "❌ Tägliche Lenkzeit überschritten (Maximal 10 Stunden erlaubt, nur 2x pro Woche).";
+                } else if (fahrzeitHeute > MAX_FAHRZEIT_TAG && fahrzeitHeute <= 10) {
+                     fahrzeitCompliance = "WARNUNG";
+                     resultBoxClass = "warning";
+                     complianceText += "⚠️ Lenkzeit ist erhöht (Maximal 10 Stunden). Achten Sie darauf, dies nicht öfter als 2x pro Woche zu tun.";
+                }
+            } else if (fahrzeitHeute > 0 && restFahrzeitHeute < 1) {
+                // Nur noch wenig Restfahrzeit
+                 fahrzeitCompliance = "ACHTUNG";
+                 if (resultBoxClass !== "danger") resultBoxClass = "warning";
+            }
+            
+            // 2. Überprüfung der Ruhezeit gestern (vereinfacht)
+            if (ruhezeitGestern < MIN_RUHEZEIT_REDUZIERT) {
+                 ruhezeitCompliance = "GEFAHR";
+                 resultBoxClass = "danger";
+                 complianceText += "❌ Tägliche Ruhezeit unterschritten! Muss mindestens 9 Stunden betragen.";
+            } else if (ruhezeitGestern < MIN_RUHEZEIT_REGEL) {
+                ruhezeitCompliance = "WARNUNG";
+                 if (resultBoxClass !== "danger") resultBoxClass = "warning";
+                 complianceText += "⚠️ Ruhezeit ist reduziert (unter 11 Std.). Achten Sie darauf, dies nicht öfter als 3x zwischen zwei Wochenruhezeiten zu nutzen.";
+            }
+
+            if (complianceText === "") {
+                complianceText = "✅ Basierend auf den Eingaben sind die Lenk- und Ruhezeiten konform.";
+            }
+
+
+            // Ausgabe der Ergebnisse
+            document.getElementById('restFahrzeitHeute').textContent = Math.max(0, restFahrzeitHeute).toFixed(1).replace('.', ',');
+            document.getElementById('ruhezeitGesternStatus').textContent = ruhezeitGestern.toFixed(1).replace('.', ',');
+            document.getElementById('gesamt_status').textContent = complianceText;
+
+            const resultBox = document.getElementById('gesamt_status_box');
+            resultBox.classList.remove('safe', 'warning', 'danger');
+            resultBox.classList.add(resultBoxClass);
+            
+            document.getElementById('gesamt_status_text').textContent = (resultBoxClass === 'danger' || resultBoxClass === 'warning') ? 'ACHTUNG: Compliance-Probleme erkannt' : 'Compliance-Check: Grün';
+            document.getElementById('gesamt_status_text').className = (resultBoxClass === 'danger') ? 'text-red-700 font-extrabold' : (resultBoxClass === 'warning' ? 'text-yellow-700 font-extrabold' : 'text-green-700 font-extrabold');
+
+        }
+        
+        // Beim Laden initial berechnen
+        document.addEventListener('DOMContentLoaded', berechneFahrzeiten);
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="../partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <a href="../loesung_ki.html" class="block px-4 py-2 text-sm font-semibold text-indigo-600 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay</a>
+                                <a href="../karriere.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere & Jobs</a>
+                                <a href="../trustcenter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Trust Center & Sicherheit</a>
+                                <a href="../status.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">System Status</a>
+                                <a href="tools_rechner.html" class="block px-4 py-2 text-sm text-indigo-600 font-medium hover:bg-gray-100" role="menuitem">Logistik-Rechner (SEO)</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="../kontakt.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">Kontakt</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="../login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="../kontakt.html#sales"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                
+                <div class="border-b border-gray-100 pb-2">
+                    <p class="px-3 pt-2 text-sm font-bold text-gray-500">Lösungen</p>
+                    <a href="../landingpage_versender.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Für Versender</a>
+                    <a href="../partnerportal.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Für Logistikpartner</a>
+                    <a href="../loesung_ki.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-gray-50">KI Frachtoptimierung</a>
+                </div>
+
+                <div class="border-b border-gray-100 pb-2 pt-2">
+                    <p class="px-3 text-sm font-bold text-gray-500">Unternehmen & Ressourcen</p>
+                    <a href="../ueber_uns.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Über TaskRelay</a>
+                    <a href="../karriere.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Karriere & Jobs</a>
+                    <a href="../trustcenter.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Trust Center & Sicherheit</a>
+                    <a href="../status.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">System Status</a>
+                    <a href="tools_rechner.html" class="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-gray-50">Logistik-Rechner (SEO)</a>
+                </div>
+                
+                <a href="../kontakt.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Kontakt</a>
+                
+            </div>
+            
+            <div class="pt-4 pb-3 border-t border-gray-100 px-4 space-y-2">
+                <a href="../login.html" class="block w-full text-center py-2 px-4 border border-gray-300 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
+                    Login
+                </a>
+                <a href="../kontakt.html#sales" class="block w-full text-center py-2 px-4 border border-transparent rounded-md text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700">
+                    Demo anfragen
+                </a>
+            </div>
+        </div>
+    </nav>
+    <header class="bg-indigo-600 text-white pt-16 pb-12 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-lg font-semibold text-indigo-200 mb-2">COMPLIANCE & ARBEITSZEITEN</p>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-3">
+                Lenk- & Ruhezeit Rechner (LKW)
+            </h1>
+            <p class="mt-4 text-xl text-indigo-200 max-w-4xl mx-auto">
+                Überprüfen Sie schnell und einfach die Einhaltung der gesetzlichen Fahr- und Ruhezeiten (VO (EG) 561/2006) für Ihren Dispositionsplan.
+            </p>
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid md:grid-cols-3 gap-10 items-start">
+                
+                <div class="calculator-card md:col-span-2">
+                    <h2 class="text-3xl font-bold text-indigo-700 mb-8 icon-compliance">
+                        Lenk- und Ruhezeiten eingeben (Stunden)
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-600" for="fahrzeitHeute">
+                                ⏱️ Geplante/Gefahrene Lenkzeit heute (Std.)
+                            </label>
+                            <input type="number" step="0.5" id="fahrzeitHeute" value="8" oninput="berechneFahrzeiten()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            <p class="text-xs text-gray-400 mt-1">Regel: Max. 9 Std. (erhöhbar auf 10 Std.)</p>
+                        </div>
+
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-600" for="ruhezeitGestern">
+                                🛌 Ruhezeit gestern (Std.)
+                            </label>
+                            <input type="number" step="0.5" id="ruhezeitGestern" value="11" oninput="berechneFahrzeiten()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            <p class="text-xs text-gray-400 mt-1">Regel: Min. 11 Std. (reduzierbar auf 9 Std.)</p>
+                        </div>
+                    </div>
+                    
+                    <button onclick="berechneFahrzeiten()" class="w-full mt-8 py-3 px-6 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-all shadow-md">
+                        Compliance Check durchführen
+                    </button>
+
+                    <div class="mt-8 pt-4 border-t border-gray-200">
+                        <h4 class="font-bold text-gray-700 mb-3">Zusammenfassung der Kennzahlen</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <p class="text-gray-600">Max. Restlenkzeit heute (Std.):</p>
+                                <p id="restFahrzeitHeute" class="text-2xl font-extrabold text-indigo-600 mt-1">1.0</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <p class="text-gray-600">Eingegebene Ruhezeit gestern (Std.):</p>
+                                <p id="ruhezeitGesternStatus" class="text-2xl font-extrabold text-indigo-600 mt-1">11.0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-1">
+                    <div class="bg-gray-100 p-6 rounded-xl shadow-inner sticky top-20">
+                        <h3 id="gesamt_status_text" class="text-xl font-extrabold text-green-700 mb-4 border-b pb-2">Compliance-Check: Grün</h3>
+                        
+                        <div id="gesamt_status_box" class="result-box safe">
+                            <p id="gesamt_status" class="text-sm font-medium text-gray-800">
+                                ✅ Basierend auf den Eingaben sind die Lenk- und Ruhezeiten konform.
+                            </p>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <p class="font-bold text-red-800">Wichtiger Hinweis zur Planung:</p>
+                            <p class="text-sm text-red-700">Dies ist ein vereinfachtes Tool. Die genaue Einhaltung erfordert die Berücksichtigung von Wochen-, Doppelwochen- und Pausenregeln.</p>
+                        </div>
+                        
+                        <div class="mt-8">
+                             <h4 class="text-lg font-bold text-indigo-700 mb-2">Die KI, die Compliance sichert.</h4>
+                             <p class="text-sm text-gray-600 mb-3">Unsere Plattform plant Touren, die stets die Einhaltung aller EU-Vorschriften garantieren.</p>
+                             <a href="../kontakt.html#sales" class="w-full inline-block text-center py-3 px-4 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 transition-all text-sm">
+                                Demo: Compliance-sichere Disposition
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="mt-20 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Die wichtigsten Regeln der Verordnung (EG) 561/2006</h2>
+                <p class="text-gray-600 mb-6">
+                    Die Einhaltung der europäischen Verordnung 561/2006 ist essenziell, um Bußgelder zu vermeiden und die Verkehrssicherheit zu gewährleisten. Hier die Grundlagen, die unser Tool abbildet:
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-indigo-700 mt-0 mb-3">Tägliche Lenkzeit</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>**Standard:** Maximal 9 Stunden pro Tag.</li>
+                            <li>**Ausnahme:** Kann zweimal pro Kalenderwoche auf 10 Stunden verlängert werden.</li>
+                            <li>**Pausen:** Nach spätestens 4,5 Stunden Lenkzeit muss eine Fahrtunterbrechung von mindestens 45 Minuten eingelegt werden.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-indigo-700 mt-0 mb-3">Tägliche Ruhezeit</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>**Standard (Regulär):** Mindestens 11 Stunden innerhalb eines 24-Stunden-Zeitraums.</li>
+                            <li>**Reduziert:** Mindestens 9 Stunden (darf maximal dreimal zwischen zwei wöchentlichen Ruhezeiten genutzt werden).</li>
+                            <li>**Aufgeteilt:** Kann in zwei Abschnitte geteilt werden: Zuerst 3 Stunden, dann 9 Stunden (gesamt 12 Stunden).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center pb-12 border-b border-gray-800">
+                <h3 class="text-3xl font-extrabold text-white mb-4">
+                    TaskRelay: Ihr Weg zur Extrabord-Logistik-Intelligenz.
+                </h3>
+                <a href="../kontakt.html#sales"
+                    class="inline-block font-bold py-3 px-8 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl">
+                    Demo anfragen
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
+                
+                <div class="col-span-2 md:col-span-1">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-400">TaskRelay</a>
+                    <p class="text-sm text-gray-400 mt-4 max-w-xs">
+                        Wir treiben die Transformation der Logistik durch KI und agile Partnernetzwerke voran.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition-all" aria-label="LinkedIn">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.75s.784-1.75 1.75-1.75 1.75.79 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.518-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition-all" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35c-0.732 0-1.325 0.593-1.325 1.325v21.351c0 0.731 0.593 1.324 1.325 1.324h21.35c0.732 0 1.325-0.593 1.325-1.324v-21.351c0-0.732-0.593-1.325-1.325-1.325zm-11.838 20.311v-9.28h-3.136v-3.666h3.136v-2.272c0-3.085 1.87-4.787 4.659-4.787 1.325 0 2.464 0.099 2.798 0.143v3.25l-1.928 0.001c-1.512 0-1.802 0.718-1.802 1.772v2.36h3.633l-0.473 3.666h-3.16v9.28h-3.66zm9.338 0h3.66v-9.28h-3.66v9.28z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Plattform</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../landingpage_versender.html" class="text-gray-400 hover:text-indigo-400 transition-all">Für Versender (B2B)</a></li>
+                        <li><a href="../partnerportal.html" class="text-gray-400 hover:text-indigo-400 transition-all">Für Logistikpartner</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-indigo-400 transition-all">API & Integration</a></li>
+                        <li><a href="../wissen/glossar.html" class="text-gray-400 hover:text-indigo-400 transition-all">Glossar</a></li>
+                        <li><a href="tools_rechner.html" class="text-indigo-400 hover:text-white transition-all">Logistik-Rechner</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Unternehmen</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../ueber_uns.html" class="text-gray-400 hover:text-indigo-400 transition-all">Über uns & Werte</a></li>
+                        <li><a href="../karriere.html" class="text-gray-400 hover:text-indigo-400 transition-all">Karriere & Jobs</a></li>
+                        <li><a href="../kontakt.html" class="text-gray-400 hover:text-indigo-400 transition-all">Global Support</a></li>
+                        <li><a href="../trustcenter.html" class="text-gray-400 hover:text-indigo-400 transition-all">Trust Center</a></li>
+                        <li><a href="../status.html" class="text-gray-400 hover:text-indigo-400 transition-all">System Status</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Kontakt Zentrale</h4>
+                    <div class="space-y-3 text-sm text-gray-400">
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📍</span> Technologie-Allee 5, 80331 München, Deutschland
+                        </p>
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📞</span> <a href="tel:+4989123450" class="hover:text-indigo-400">+49 (0)89 12345-0</a>
+                        </p>
+                        <p class="flex items-center">
+                            <span class="text-indigo-400 mr-2">📧</span> <a href="mailto:info@taskrelay.com" class="hover:text-indigo-400">info@taskrelay.com</a>
+                        </p>
+                    </div>
+                    
+                    <h4 class="text-base font-semibold mb-2 mt-6 text-gray-200">Operativer Support (24/7)</h4>
+                    <p class="text-sm text-gray-400">
+                        <a href="tel:+49891234580" class="text-red-500 hover:text-red-400 font-bold">+49 (0)89 12345-80</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-gray-800 text-sm text-center md:text-left text-gray-500">
+                <div class="md:flex justify-between items-center">
+                    <p>&copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten.</p>
+                    <div class="mt-4 md:mt-0 space-x-4">
+                        <a href="../impressum.html" class="hover:text-indigo-400 transition-all">Impressum</a>
+                        <a href="../datenschutz.html" class="hover:text-indigo-400 transition-all">Datenschutz</a>
+                        <a href="#" class="hover:text-indigo-400 transition-all">AGB</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const yearElement = document.getElementById('current-year');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            });
+        </script>
+    </footer>
+    </body>
+
+</html>

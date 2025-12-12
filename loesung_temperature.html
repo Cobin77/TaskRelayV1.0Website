@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperaturgeführte Transporte | KI-Lösung für Kühlkettenlogistik | TaskRelay</title>
+    <meta name="description" content="TaskRelay bietet KI-optimierte Lösungen für temperaturgeführte Transporte. Maximale Zuverlässigkeit, Echtzeit-Monitoring und Lückenlose Kühlketten-Compliance.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; 
+        }
+
+        /* Nav & Dropdown Styles */
+        .dropdown-hover:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Feature Card Hover Effect */
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* KPI Style */
+        .kpi-number {
+            font-size: 3rem;
+            line-height: 1;
+            font-weight: 800;
+        }
+    </style>
+     <script>
+        // JavaScript für die mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+                </div>
+
+                <div class="hidden md:flex space-x-4 lg:space-x-6 items-center">
+                    
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-bold text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Lösungen
+                            <svg class="ml-1 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../marketing/landingpage_versender.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Versender</a>
+                                <a href="../marketing/partnerportal.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Für Logistikpartner</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="loesung_temperature.html" class="block px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50" role="menuitem">Temperaturgeführte Transporte</a>
+                                <a href="loesung_ki.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">KI Frachtoptimierung</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative dropdown-hover">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 py-5 transition-all focus:outline-none" aria-expanded="false">
+                            Unternehmen & Ressourcen
+                            <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute left-1/2 transform -translate-x-1/2 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20" role="menu">
+                            <div class="py-1" role="none">
+                                <a href="../ueber_uns.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Über TaskRelay & Trust</a>
+                                <a href="../karriere.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Karriere</a>
+                                <a href="../status.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">System Status</a>
+                                <a href="../tools/tools_rechner.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Logistik-Rechner</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="../kontakt.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-all">Kontakt</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="../login.html"
+                        class="text-sm font-semibold text-gray-700 hover:text-indigo-600 py-2 px-4 rounded-lg transition-all border border-transparent hover:border-gray-300">
+                        Login
+                    </a>
+                    <a href="../kontakt.html#sales"
+                        class="text-sm font-bold py-2.5 px-6 rounded-lg transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg">
+                        Demo anfragen
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-100">
+                </div>
+        </div>
+    </nav>
+    <header class="bg-indigo-700 pt-16 pb-24 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-indigo-200 uppercase tracking-widest text-sm font-semibold mb-3">LÖSUNGEN FÜR PHARMA & LEBENSMITTEL</p>
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+                Lückenlose Kühlkette: <br class="hidden md:inline">KI-optimierte Temperaturgeführte Transporte
+            </h1>
+            <p class="text-xl text-indigo-200 max-w-3xl mx-auto mb-8">
+                Die TaskRelay KI gewährleistet $\text{GDP}$-Compliance und präzise Temperaturführung, reduziert Risiko und Kosten in Ihrer sensiblen Logistik.
+            </p>
+            <div class="space-x-4">
+                 <a href="../kontakt.html#sales" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg shadow-lg text-indigo-700 bg-white hover:bg-gray-100 transition duration-300">
+                    Spezial-Demo anfragen
+                </a>
+                <a href="#compliance" class="inline-flex items-center justify-center px-8 py-3 border border-indigo-400 text-base font-medium rounded-lg text-white hover:bg-indigo-600 transition duration-300">
+                    Compliance-Details
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="py-16 bg-white -mt-10 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white p-8 rounded-xl shadow-2xl border border-gray-100">
+                
+                <div class="text-center">
+                    <p class="kpi-number text-indigo-600">99.9%</p>
+                    <p class="mt-2 text-lg font-semibold text-gray-700">Kühlketten-Integrität</p>
+                    <p class="text-sm text-gray-500">Durch KI-gestützte Routen- & Partnerwahl.</p>
+                </div>
+
+                <div class="text-center border-l border-r border-gray-200">
+                    <p class="kpi-number text-indigo-600">10 Min</p>
+                    <p class="mt-2 text-lg font-semibold text-gray-700">Abweichungs-Alerts</p>
+                    <p class="text-sm text-gray-500">Echtzeit-Monitoring mit sofortiger Benachrichtigung.</p>
+                </div>
+
+                <div class="text-center">
+                    <p class="kpi-number text-indigo-600">35+</p>
+                    <p class="mt-2 text-lg font-semibold text-gray-700">Temperaturzonen</p>
+                    <p class="text-sm text-gray-500">Von tiefgekühlt bis pharmazeutische Umgebung (+2°C bis +8°C).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-12">Ihre Vorteile im Überblick</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <svg class="h-12 w-12 text-green-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Vollständige GDP-Compliance</h3>
+                    <p class="text-gray-600">Automatisierte Dokumentation und Audit-Trails, die alle Anforderungen der Good Distribution Practice erfüllen. Vermeiden Sie kostspielige Fehler.</p>
+                </div>
+
+                <div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <svg class="h-12 w-12 text-indigo-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Präventive Routenintelligenz</h3>
+                    <p class="text-gray-600">Unsere KI prognostiziert Verzögerungen und Temperaturschwankungen basierend auf Wetterdaten und Stauprognosen, um Alternativrouten vorzuschlagen.</p>
+                </div>
+
+                <div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <svg class="h-12 w-12 text-red-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 9H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Echtzeit-Temperaturprotokoll</h3>
+                    <p class="text-gray-600">Sekundengenaue Visualisierung der Temperaturdaten des Frachtraums in Ihrem TaskRelay-Dashboard, jederzeit einsehbar und exportierbar.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    
+    <section id="compliance" class="py-20 bg-gray-50 border-t border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                
+                <div class="order-2">
+                    <img src="https://via.placeholder.com/800x500/e0f2fe/1e3a8a?text=Compliance+Dashboard+Mockup" alt="Dashboard für Kühlketten-Compliance" class="rounded-xl shadow-xl border border-blue-100">
+                </div>
+
+                <div class="order-1 mt-10 md:mt-0">
+                    <p class="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-2">Audit-Sicherheit</p>
+                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Lückenlose Dokumentation für den Ernstfall</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Bei temperaturempfindlichen Gütern ist die lückenlose Dokumentation der Schlüssel. TaskRelay erstellt automatisch einen **Temperatur-Audit-Report** für jede Sendung, der revisionssicher im System archiviert wird.
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <svg class="h-6 w-6 text-indigo-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            Validiertes Mapping aller Temperaturzonen.
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="h-6 w-6 text-indigo-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            Spezialisierte Partner-Pools mit Reinigungsnachweisen.
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="h-6 w-6 text-indigo-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            Sofortiger Export aller Daten bei Audits (z.B. $\text{FDA}$).
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-10">Häufige Fragen zur Kühlketten-Logistik</h2>
+            
+            <div class="space-y-6">
+                <div class="bg-white p-5 rounded-lg shadow border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Wie stellt TaskRelay die $\text{GDP}$-Konformität sicher?</h3>
+                    <p class="text-gray-600">Wir arbeiten ausschließlich mit zertifizierten Logistikpartnern, deren Fahrzeuge mit validierten Telematiksystemen ausgestattet sind. Unsere Plattform erfordert lückenlose Temperaturprotokolle und verweigert die Buchung bei Partnern, die gegen $\text{GDP}$-Richtlinien verstoßen haben.</p>
+                </div>
+                
+                <div class="bg-white p-5 rounded-lg shadow border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Welche Temperaturbereiche können abgedeckt werden?</h3>
+                    <p class="text-gray-600">Wir decken alle gängigen Bereiche ab: Gekühlt (+2°C bis +8°C), Raumtemperatur (Ambient, +15°C bis +25°C) und Tiefkühlung (z.B. -20°C). Die KI wählt den Partner, der die exakten Toleranzen für Ihre Route am besten einhalten kann.</p>
+                </div>
+                
+                <div class="bg-white p-5 rounded-lg shadow border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Was passiert bei einer Temperaturabweichung?</h3>
+                    <p class="text-gray-600">Das System löst sofort einen **Tier-1-Alert** aus und benachrichtigt Sie und den Logistikpartner. Parallel beginnt die KI automatisch mit der Planung einer Notfallroute oder der Organisation eines Ersatzfahrzeugs, um die Kühlkette schnellstmöglich wiederherzustellen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-indigo-600 py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-extrabold text-white mb-4">Setzen Sie auf Sicherheit in der Kühlkette</h2>
+            <p class="text-xl text-indigo-200 mb-8">Reduzieren Sie Produktschäden und Compliance-Risiken mit der intelligenten TaskRelay Lösung.</p>
+            <a href="../kontakt.html#sales" class="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-bold rounded-lg shadow-lg text-indigo-700 bg-yellow-400 hover:bg-yellow-300 transition duration-300 transform hover:scale-105">
+                Jetzt unverbindliche Spezial-Demo anfragen
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                
+                <div>
+                    <h3 class="text-2xl font-extrabold text-indigo-400 mb-4">TaskRelay</h3>
+                    <p class="text-sm text-gray-400">
+                        KI-Logistik-Plattform <br>
+                        Hauptquartier Europa <br>
+                        Logistikring 42 <br>
+                        10115 Berlin, Deutschland
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Plattform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../marketing/landingpage_versender.html" class="text-gray-400 hover:text-indigo-400">Für Versender</a></li>
+                        <li><a href="../marketing/partnerportal.html" class="text-gray-400 hover:text-indigo-400">Partner werden</a></li>
+                        <li><a href="../login.html" class="text-gray-400 hover:text-indigo-400">Login</a></li>
+                        <li><a href="../registrierung.html" class="text-gray-400 hover:text-indigo-400">Registrieren</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Unternehmen</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../ueber_uns.html" class="text-gray-400 hover:text-indigo-400">Über uns</a></li>
+                        <li><a href="../karriere.html" class="text-gray-400 hover:text-indigo-400">Karriere</a></li>
+                        <li><a href="../status.html" class="text-gray-400 hover:text-indigo-400">System Status</a></li>
+                        <li><a href="../kontakt.html" class="text-gray-400 hover:text-indigo-400">Kontakt & Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 md:col-span-2">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Ressourcen & Rechtliches</h4>
+                    <ul class="space-y-2 text-sm grid grid-cols-2">
+                        <li><a href="../tools/tools_rechner.html" class="text-gray-400 hover:text-indigo-400">Logistik-Rechner</a></li>
+                        <li><a href="../pages/impressum.html" class="text-gray-400 hover:text-indigo-400">Impressum</a></li>
+                        <li><a href="../pages/datenschutz.html" class="text-gray-400 hover:text-indigo-400">Datenschutz</a></li>
+                        <li><a href="../pages/agb.html" class="text-gray-400 hover:text-indigo-400">AGB</a></li>
+                        <li><a href="../wissen/wissen_index.html" class="text-gray-400 hover:text-indigo-400">Wissensbasis (SEO)</a></li>
+                        <li><a href="../trustcenter.html" class="text-gray-400 hover:text-indigo-400">Trust Center</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 order-2 md:order-1 mt-4 md:mt-0">
+                    &copy; <span id="current-year"></span> TaskRelay GmbH. Alle Rechte vorbehalten. KI-gestützte Logistik.
+                </p>
+                <div class="flex space-x-6 order-1 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.528-4 0v5.604h-3v-11h3v1.765c1.395-2.774 7-2.735 7 2.735v6.5z"/></svg></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.791-1.574 2.153-2.723-.951.554-2.007.95-3.127 1.173-1.026-1.09-2.487-1.77-4.072-1.77-3.64 0-6.599 2.959-6.599 6.599 0 .518.058 1.023.158 1.51-5.483-.275-10.33-2.887-13.593-6.834-.565.977-.88 2.106-.88 3.3.0 2.285 1.166 4.305 2.934 5.489-1.076-.037-2.083-.33-2.964-.817v.08c0 3.195 2.263 5.867 5.24 6.473-.547.149-1.124.23-1.72.23-.42 0-.823-.041-1.22-.116.83 2.597 3.253 4.497 6.132 4.546-2.247 1.763-5.081 2.81-8.15 2.81-.531.0-1.055-.031-1.57-.091 2.915 1.868 6.36 2.955 10.038 2.955 12.042.0 18.679-9.916 18.679-18.68 0-.285-.008-.567-.02-.847.695-.501 1.298-1.115 1.789-1.815z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

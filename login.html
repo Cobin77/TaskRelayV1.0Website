@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TaskRelay Plattform-Zugang</title>
+    <meta name="description" content="Melden Sie sich bei der TaskRelay KI-Logistikplattform an. Für Versender und Logistikpartner.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Hellgrauer Hintergrund */
+        }
+        .login-bg {
+            /* Subtile Hintergrund-Textur oder Farbe für Fokus */
+            background-color: #f0f4f8; 
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Optionale JavaScript-Funktionalität, z.B. um das Formular zu simulieren
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // In einer echten Anwendung: Authentifizierungslogik hier
+                    console.log('Login-Versuch...');
+                    alert('Login-Funktion simuliert. Weiterleitung zum Dashboard (nicht implementiert).');
+                    // window.location.href = 'dashboard.html'; // Beispiel-Weiterleitung
+                });
+            }
+        });
+    </script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen antialiased text-gray-800 login-bg">
+
+    <div class="w-full max-w-md mx-auto p-8 md:p-10 bg-white rounded-xl shadow-2xl border border-gray-100">
+        
+        <div class="text-center mb-8">
+            <a href="index.html" class="text-4xl font-extrabold text-indigo-700">TaskRelay</a>
+            <h1 class="mt-4 text-2xl font-bold text-gray-900">Anmelden bei Ihrem Portal</h1>
+            <p class="text-sm text-gray-500">Logistik-Intelligenz wartet auf Sie.</p>
+        </div>
+
+        <form id="login-form" class="space-y-6">
+            
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-Mail Adresse</label>
+                <input type="email" id="email" name="email" required
+                    class="form-input" placeholder="max.mustermann@firma.de">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Passwort</label>
+                <input type="password" id="password" name="password" required
+                    class="form-input" placeholder="••••••••">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                        class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                        Angemeldet bleiben
+                    </label>
+                </div>
+
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Passwort vergessen?
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                    Anmelden
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-8 text-center text-sm">
+            <p class="text-gray-600">
+                Noch kein Kunde? 
+                <a href="kontakt.html#sales" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Demo anfragen
+                </a>
+            </p>
+            <p class="mt-4">
+                <a href="index.html" class="font-medium text-gray-500 hover:text-gray-700">
+                    ← Zurück zur Startseite
+                </a>
+            </p>
+        </div>
+    </div>
+
+</body>
+
+</html>

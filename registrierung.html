@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrierung | TaskRelay Plattform</title>
+    <meta name="description" content="Starten Sie Ihre Registrierung bei TaskRelay. Wählen Sie zwischen Versender (Auftraggeber) oder Logistikpartner (Auftragnehmer).">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Formular Styling */
+        .form-input, .form-select, .form-file-upload {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus, .form-select:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+        /* Fortschrittsanzeige */
+        .progress-bar-fill {
+            transition: width 0.4s ease-in-out;
+        }
+        /* Ausblenden von Schritten */
+        .step-content {
+            display: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('registration-form');
+            const steps = form.querySelectorAll('.step-content');
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            const stepTitle = document.getElementById('step-title');
+            let currentStep = 0;
+
+            function updateProgress() {
+                const percentage = ((currentStep + 1) / steps.length) * 100;
+                progressBarFill.style.width = `${percentage}%`;
+                
+                // Fortschrittstitel anpassen
+                const titles = [
+                    "Schritt 1: Profil wählen", 
+                    "Schritt 2: Unternehmensdaten", 
+                    "Schritt 3: Spezifische Anforderungen", 
+                    "Schritt 4: Bestätigung"
+                ];
+                stepTitle.textContent = titles[currentStep];
+            }
+
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    step.style.display = index === stepIndex ? 'block' : 'none';
+                });
+                currentStep = stepIndex;
+                updateProgress();
+            }
+
+            function validateStep(stepIndex) {
+                const currentStepElement = steps[stepIndex];
+                const requiredInputs = currentStepElement.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredInputs.forEach(input => {
+                    // Checke, ob Feld sichtbar ist, bevor validiert wird (für bedingte Felder)
+                    if (input.closest('.step-content').style.display !== 'none') {
+                         if (!input.value.trim()) {
+                            isValid = false;
+                            input.style.borderColor = '#ef4444'; // Rot für Fehler
+                        } else {
+                            input.style.borderColor = '#d1d5db'; // Standardfarbe
+                        }
+                    }
+                });
+                return isValid;
+            }
+
+            // Bedingte Logik für Logistikpartner (Schritt 3)
+            const roleSelect = document.getElementById('role');
+            const partnerFields = document.getElementById('partner-fields');
+
+            roleSelect.addEventListener('change', () => {
+                const isPartner = roleSelect.value === 'partner';
+                partnerFields.style.display = isPartner ? 'block' : 'none';
+                
+                // Erforderlich-Status basierend auf Auswahl anpassen
+                const requiredPartnerInputs = partnerFields.querySelectorAll('[data-required-partner]');
+                requiredPartnerInputs.forEach(input => {
+                    if (isPartner) {
+                        input.setAttribute('required', 'required');
+                    } else {
+                        input.removeAttribute('required');
+                    }
+                });
+            });
+
+
+            // Navigation zwischen den Schritten
+            form.addEventListener('click', (e) => {
+                if (e.target.matches('[data-action="next-step"]')) {
+                    if (validateStep(currentStep)) {
+                        if (currentStep < steps.length - 1) {
+                            showStep(currentStep + 1);
+                        } else {
+                            // Letzter Schritt -> Formular senden (simuliert)
+                            alert('Registrierung erfolgreich! Bitte prüfen Sie Ihre E-Mails für die Bestätigung.');
+                            form.reset();
+                            showStep(0); // Zurück zum Anfang
+                        }
+                    } else {
+                        alert('Bitte füllen Sie alle erforderlichen Felder aus.');
+                    }
+                } else if (e.target.matches('[data-action="prev-step"]')) {
+                    if (currentStep > 0) {
+                        showStep(currentStep - 1);
+                    }
+                }
+            });
+
+            // Start: Ersten Schritt anzeigen
+            showStep(0);
+        });
+    </script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen antialiased text-gray-800 bg-gray-50">
+
+    <div class="w-full max-w-2xl mx-auto p-8 md:p-10 bg-white rounded-xl shadow-2xl border border-gray-100 my-10">
+
+        <div class="text-center mb-10">
+            <a href="index.html" class="text-4xl font-extrabold text-indigo-700">TaskRelay</a>
+            <h1 class="mt-4 text-3xl font-bold text-gray-900">Kostenlos registrieren</h1>
+            <p class="text-gray-500">Schnell, effizient und KI-gestützt - starten Sie in wenigen Schritten.</p>
+        </div>
+
+        <div class="mb-8">
+            <h2 id="step-title" class="text-lg font-semibold text-indigo-600 mb-2 text-center">Schritt 1: Profil wählen</h2>
+            <div class="bg-gray-200 rounded-full h-2.5">
+                <div id="progress-bar-fill" class="progress-bar-fill bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <form id="registration-form" class="space-y-6">
+
+            <div class="step-content" data-step="1">
+                <div class="p-6 border border-indigo-200 bg-indigo-50 rounded-lg">
+                    <label for="role" class="block text-xl font-bold text-indigo-700 mb-4">Welche Rolle trifft auf Sie zu?</label>
+                    <select id="role" name="role" required class="form-select text-lg">
+                        <option value="">-- Bitte wählen --</option>
+                        <option value="shipper">Versender (Auftraggeber)</option>
+                        <option value="partner">Logistikpartner (Auftragnehmer)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end pt-6">
+                    <button type="button" data-action="next-step" class="py-3 px-8 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">
+                        Weiter zu Schritt 2
+                    </button>
+                </div>
+            </div>
+
+            <div class="step-content" data-step="2">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900">Basisinformationen</h3>
+                
+                <div>
+                    <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">Unternehmensname</label>
+                    <input type="text" id="company-name" name="company-name" required class="form-input">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="contact-person" class="block text-sm font-medium text-gray-700 mb-1">Ansprechpartner (Name)</label>
+                        <input type="text" id="contact-person" name="contact-person" required class="form-input">
+                    </div>
+                    <div>
+                        <label for="company-email" class="block text-sm font-medium text-gray-700 mb-1">Unternehmens-E-Mail</label>
+                        <input type="email" id="company-email" name="company-email" required class="form-input">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="company-address" class="block text-sm font-medium text-gray-700 mb-1">Hauptadresse</label>
+                    <input type="text" id="company-address" name="company-address" required class="form-input">
+                </div>
+
+                <div class="flex justify-between pt-6">
+                    <button type="button" data-action="prev-step" class="py-3 px-6 bg-gray-200 text-gray-700 font-bold rounded-lg hover:bg-gray-300 transition">
+                        Zurück
+                    </button>
+                    <button type="button" data-action="next-step" class="py-3 px-8 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">
+                        Weiter zu Schritt 3
+                    </button>
+                </div>
+            </div>
+            
+            <div class="step-content" data-step="3">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900">Spezifische Details</h3>
+
+                <div id="partner-fields" style="display:none;" class="space-y-4 p-5 bg-yellow-50 border border-yellow-300 rounded-lg mb-6">
+                    <p class="font-bold text-lg text-yellow-800 flex items-center">
+                        ⚠️ Logistikpartner-Dokumentation erforderlich
+                    </p>
+                    
+                    <div>
+                        <label for="fleet-size" class="block text-sm font-medium text-gray-700 mb-1">Größe der Flotte (Anzahl LKW)</label>
+                        <input type="number" id="fleet-size" name="fleet-size" data-required-partner class="form-input" min="1" placeholder="Mindestens 1">
+                    </div>
+
+                    <div>
+                        <label for="document-upload" class="block text-sm font-medium text-gray-700 mb-1">Gewerbeschein / Handelsregisterauszug hochladen (PDF, Max. 5MB)</label>
+                        <input type="file" id="document-upload" name="document-upload" data-required-partner accept=".pdf" class="form-input form-file-upload border-0 p-1">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="estimated-volume" class="block text-sm font-medium text-gray-700 mb-1">Geschätztes monatliches Frachtvolumen (Paletten/Sendungen)</label>
+                    <input type="text" id="estimated-volume" name="estimated-volume" class="form-input" placeholder="z.B. 100-200 Paletten">
+                </div>
+
+                <div>
+                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Anmerkungen oder spezielle Anforderungen</label>
+                    <textarea id="notes" name="notes" rows="3" class="form-input"></textarea>
+                </div>
+                
+                <div class="flex justify-between pt-6">
+                    <button type="button" data-action="prev-step" class="py-3 px-6 bg-gray-200 text-gray-700 font-bold rounded-lg hover:bg-gray-300 transition">
+                        Zurück
+                    </button>
+                    <button type="button" data-action="next-step" class="py-3 px-8 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">
+                        Weiter zu Schritt 4
+                    </button>
+                </div>
+            </div>
+
+            <div class="step-content" data-step="4">
+                <div class="text-center p-8 bg-green-50 border border-green-300 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-600 mx-auto mb-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <h3 class="text-3xl font-bold text-green-700 mb-3">Fast geschafft!</h3>
+                    <p class="text-gray-700 mb-6">Bitte bestätigen Sie Ihre Angaben und akzeptieren Sie unsere Richtlinien, um die Registrierung abzuschließen.</p>
+                </div>
+                
+                <div class="mt-6 space-y-4">
+                    <div class="flex items-start">
+                        <input id="accept-agb" name="accept-agb" type="checkbox" required
+                            class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <label for="accept-agb" class="ml-3 text-sm text-gray-700">
+                            Ich habe die <a href="pages/agb.html" target="_blank" class="text-indigo-600 hover:underline">AGB</a> gelesen und stimme diesen zu.
+                        </label>
+                    </div>
+                    <div class="flex items-start">
+                        <input id="accept-privacy" name="accept-privacy" type="checkbox" required
+                            class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <label for="accept-privacy" class="ml-3 text-sm text-gray-700">
+                            Ich habe die <a href="pages/datenschutz.html" target="_blank" class="text-indigo-600 hover:underline">Datenschutzerklärung</a> zur Kenntnis genommen.
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between pt-6">
+                    <button type="button" data-action="prev-step" class="py-3 px-6 bg-gray-200 text-gray-700 font-bold rounded-lg hover:bg-gray-300 transition">
+                        Zurück
+                    </button>
+                    <button type="button" data-action="next-step" class="w-1/2 py-3 px-8 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">
+                        Registrierung abschließen
+                    </button>
+                </div>
+            </div>
+            
+        </form>
+
+        <div class="mt-8 text-center text-sm">
+            <p class="text-gray-600">
+                Sie haben bereits ein Konto? 
+                <a href="login.html" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Hier anmelden
+                </a>
+            </p>
+        </div>
+    </div>
+
+</body>
+
+</html>

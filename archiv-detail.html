@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Mortem: [VORFALL NAME] - TaskRelay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .incident-header {
+            background-color: #fee2e2; /* Rot-akzentuiert für einen Vorfall */
+            color: #dc2626;
+            padding-bottom: 4rem;
+            box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .incident-badge {
+            background-color: #dc2626;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+        }
+
+        .timeline-item {
+            border-left: 2px solid #e5e7eb;
+            padding-left: 1.5rem;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #dc2626; /* Rot */
+            border: 3px solid white;
+        }
+
+        .timeline-item.resolved .timeline-dot {
+            background-color: #10b981; /* Grün */
+        }
+    </style>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <nav class="bg-white border-b border-gray-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="../index.html" class="text-3xl font-extrabold text-indigo-700">TaskRelay</a>
+            <div class="space-x-4">
+                <a href="status_archive.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Zurück zum Archiv</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="incident-header pt-16 pb-12 text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span class="incident-badge mb-3 inline-block">VORFALL ABGESCHLOSSEN</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3 text-red-700">
+                Post-Mortem: Fehlerhaftes Deployment auf Partner-Frontend
+            </h1>
+            <p class="text-lg text-red-600 max-w-3xl mx-auto">
+                **Betroffen:** Partner Portale | **Datum:** 2026-01-15 | **Dauer:** 12 Minuten
+            </p>
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <section class="mb-12 p-6 bg-white rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-2">Zusammenfassung und Auswirkungen</h2>
+                
+                <p class="text-gray-700 mb-4">Am 15. Januar 2026 kam es um 14:00 Uhr zu einem vollständigen Ausfall des Partner Portals (Web-Dashboard). Die Core API, die KI Matchmaking Engine und die Zahlungsdienste waren nicht betroffen, jedoch konnten Disponenten aufgrund des Front-End-Ausfalls keine neuen Aufträge ansehen oder bestätigen. Das Problem wurde durch den sofortigen Rollback der fehlerhaften Version behoben.</p>
+                
+                <div class="bg-gray-50 p-4 rounded-lg mt-6">
+                    <h3 class="font-bold text-gray-800">Key Metriken während des Incidents</h3>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
+                        <li>**Ausfalldauer:** 12 Minuten (14:00 bis 14:12 Uhr CET)</li>
+                        <li>**Auswirkung:** 100% der Partner-Portal-Nutzer betroffen.</li>
+                        <li>**Verpasste Aufträge:** Schätzungsweise 5 Aufträge wurden während der Dauer nicht abgeschlossen.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-2">Chronologie des Vorfalls</h2>
+                
+                <div class="space-y-6">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-gray-800">14:00 Uhr CET: Beginn des Vorfalls</p>
+                        <p class="text-sm text-gray-600">Das neue Frontend-Deployment wurde abgeschlossen und löste sofort einen kritischen Konfigurationsfehler aus, der zu HTTP 500 Fehlern führte.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-gray-800">14:02 Uhr CET: Automatische Alarmierung</p>
+                        <p class="text-sm text-gray-600">Unsere Uptime-Monitoring-Systeme (Statuscake) alarmierten das On-Call-Team (Level 1 Incident Response). Parallel meldeten erste Partner das Problem.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-gray-800">14:06 Uhr CET: Identifizierung der Ursache</p>
+                        <p class="text-sm text-gray-600">Das SRE-Team identifizierte das kürzliche Deployment als primäre Ursache. Entscheidung für den sofortigen Rollback.</p>
+                    </div>
+                    
+                    <div class="timeline-item resolved">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-green-700">14:12 Uhr CET: Behebung und Auflösung</p>
+                        <p class="text-sm text-gray-600">Der Rollback auf die vorherige stabile Version war erfolgreich. Die Portale funktionierten wieder normal. Der Incident wurde als behoben markiert.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12 p-6 bg-white rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-2">Folge-Maßnahmen (Lessons Learned)</h2>
+                
+                <p class="text-gray-700 mb-4">Um sicherzustellen, dass dieser Vorfall sich nicht wiederholt, werden folgende Maßnahmen ergriffen:</p>
+                
+                <ul class="list-disc pl-5 mt-4 text-gray-700 space-y-2">
+                    <li>**Pre-Deployment Gates:** Implementierung einer automatisierten Konfigurationsprüfung vor dem Deployment in die Produktionsumgebung.</li>
+                    <li>**Canary-Deployment:** Das neue Deployment wird zukünftig nur auf 5% der Server ausgerollt, bevor es auf 100% skaliert wird, um Fehler frühzeitig abzufangen.</li>
+                    <li>**Verbesserte Kommunikation:** Die Aktualisierung der Status Page hätte schneller erfolgen müssen (Ziel: < 5 Minuten nach Erkennung).</li>
+                </ul>
+            </section>
+            
+            <div class="mt-10 text-center">
+                <a href="status.html" class="inline-block font-bold py-3 px-8 rounded-full transition-all bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg">
+                    Zurück zur aktuellen Status Seite
+                </a>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center mt-20">
+        <p class="text-gray-500 text-sm">
+            &copy; 2025 TaskRelay GmbH.
+        </p>
+    </footer>
+
+</body>
+
+</html>
